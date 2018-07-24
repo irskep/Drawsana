@@ -14,16 +14,18 @@ class ViewController: UIViewController {
   let toolButton = UIButton(type: .custom)
 
   let tools: [AMDrawingTool] = [
-    AMRectTool(),
+    AMEllipseTool(),
     AMPenTool(),
     AMEraserTool(),
     AMLineTool(),
+    AMRectTool(),
   ]
   let toolNames: [String] = [
-    "Rect",
+    "Ellipse",
     "Pen",
     "Eraser",
     "Line",
+    "Rect",
   ]
   var toolIndex = 0
 

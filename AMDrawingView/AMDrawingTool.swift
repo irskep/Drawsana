@@ -78,6 +78,41 @@ public class AMRectTool: AMDrawingToolWithShapeInProgress {
   }
 }
 
+public class AMEllipseTool: AMDrawingToolWithShapeInProgress {
+  public typealias ShapeType = AMEllipseShape
+
+  public var shapeInProgress: AMEllipseShape?
+
+  public var isProgressive: Bool { return false }
+
+  public init() {
+
+  }
+
+  public func drawPoint(_ point: CGPoint, drawing: AMDrawing) {
+    let shape = AMEllipseShape()
+    shape.a = point
+    shape.b = point
+    drawing.add(shape: shape)
+  }
+
+  public func drawStart(point: CGPoint, drawing: AMDrawing) {
+    shapeInProgress = AMEllipseShape()
+    shapeInProgress?.a = point
+    shapeInProgress?.b = point
+  }
+
+  public func drawContine(point: CGPoint, velocity: CGPoint, drawing: AMDrawing) {
+    shapeInProgress?.b = point
+  }
+
+  public func drawEnd(point: CGPoint, drawing: AMDrawing) {
+    shapeInProgress?.b = point
+    drawing.add(shape: shapeInProgress!)
+    shapeInProgress = nil
+  }
+}
+
 public class AMPenTool: AMDrawingToolWithShapeInProgress {
   public typealias ShapeType = AMPenShape
 
