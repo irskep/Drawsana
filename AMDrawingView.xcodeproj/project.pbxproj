@@ -7,9 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3777F2FD21068A5C009A9AC5 /* AMShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777F2FC21068A5C009A9AC5 /* AMShape.swift */; };
+		3777F2FF21068A78009A9AC5 /* AMDrawingTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777F2FE21068A78009A9AC5 /* AMDrawingTool.swift */; };
 		37EB4EE3210649E100E10461 /* AMDrawingView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* AMDrawingView.framework */; };
 		37EB4EE8210649E100E10461 /* AMDrawingViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB4EE7210649E100E10461 /* AMDrawingViewTests.swift */; };
 		37EB4EEA210649E100E10461 /* AMDrawingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 37EB4EDC210649E100E10461 /* AMDrawingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		37EB4EF4210649FC00E10461 /* AMDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB4EF3210649FC00E10461 /* AMDrawingView.swift */; };
+		37EB4EFD21064A5E00E10461 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB4EFC21064A5E00E10461 /* AppDelegate.swift */; };
+		37EB4EFF21064A5E00E10461 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB4EFE21064A5E00E10461 /* ViewController.swift */; };
+		37EB4F0221064A5E00E10461 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37EB4F0021064A5E00E10461 /* Main.storyboard */; };
+		37EB4F0421064A6000E10461 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37EB4F0321064A6000E10461 /* Assets.xcassets */; };
+		37EB4F0721064A6000E10461 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37EB4F0521064A6000E10461 /* LaunchScreen.storyboard */; };
+		37EB4F1A21064A8100E10461 /* AMDrawingView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* AMDrawingView.framework */; };
+		37EB4F1B21064A8100E10461 /* AMDrawingView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* AMDrawingView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,15 +30,46 @@
 			remoteGlobalIDString = 37EB4ED8210649E100E10461;
 			remoteInfo = AMDrawingView;
 		};
+		37EB4F1C21064A8100E10461 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 37EB4ED0210649E100E10461 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 37EB4ED8210649E100E10461;
+			remoteInfo = AMDrawingView;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		37EB4F1E21064A8100E10461 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				37EB4F1B21064A8100E10461 /* AMDrawingView.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		3777F2FC21068A5C009A9AC5 /* AMShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMShape.swift; sourceTree = "<group>"; };
+		3777F2FE21068A78009A9AC5 /* AMDrawingTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMDrawingTool.swift; sourceTree = "<group>"; };
 		37EB4ED9210649E100E10461 /* AMDrawingView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AMDrawingView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37EB4EDC210649E100E10461 /* AMDrawingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMDrawingView.h; sourceTree = "<group>"; };
 		37EB4EDD210649E100E10461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37EB4EE2210649E100E10461 /* AMDrawingViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMDrawingViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37EB4EE7210649E100E10461 /* AMDrawingViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMDrawingViewTests.swift; sourceTree = "<group>"; };
 		37EB4EE9210649E100E10461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37EB4EF3210649FC00E10461 /* AMDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMDrawingView.swift; sourceTree = "<group>"; };
+		37EB4EFA21064A5E00E10461 /* AMDrawingView Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AMDrawingView Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		37EB4EFC21064A5E00E10461 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		37EB4EFE21064A5E00E10461 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		37EB4F0121064A5E00E10461 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		37EB4F0321064A6000E10461 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		37EB4F0621064A6000E10461 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		37EB4F0821064A6000E10461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,12 +88,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		37EB4EF721064A5E00E10461 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37EB4F1A21064A8100E10461 /* AMDrawingView.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		37EB4ECF210649E100E10461 = {
 			isa = PBXGroup;
 			children = (
+				37EB4EFB21064A5E00E10461 /* AMDrawingView Demo */,
 				37EB4EDB210649E100E10461 /* AMDrawingView */,
 				37EB4EE6210649E100E10461 /* AMDrawingViewTests */,
 				37EB4EDA210649E100E10461 /* Products */,
@@ -64,6 +114,7 @@
 			children = (
 				37EB4ED9210649E100E10461 /* AMDrawingView.framework */,
 				37EB4EE2210649E100E10461 /* AMDrawingViewTests.xctest */,
+				37EB4EFA21064A5E00E10461 /* AMDrawingView Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,6 +124,9 @@
 			children = (
 				37EB4EDC210649E100E10461 /* AMDrawingView.h */,
 				37EB4EDD210649E100E10461 /* Info.plist */,
+				37EB4EF3210649FC00E10461 /* AMDrawingView.swift */,
+				3777F2FC21068A5C009A9AC5 /* AMShape.swift */,
+				3777F2FE21068A78009A9AC5 /* AMDrawingTool.swift */,
 			);
 			path = AMDrawingView;
 			sourceTree = "<group>";
@@ -84,6 +138,19 @@
 				37EB4EE9210649E100E10461 /* Info.plist */,
 			);
 			path = AMDrawingViewTests;
+			sourceTree = "<group>";
+		};
+		37EB4EFB21064A5E00E10461 /* AMDrawingView Demo */ = {
+			isa = PBXGroup;
+			children = (
+				37EB4EFC21064A5E00E10461 /* AppDelegate.swift */,
+				37EB4EFE21064A5E00E10461 /* ViewController.swift */,
+				37EB4F0021064A5E00E10461 /* Main.storyboard */,
+				37EB4F0321064A6000E10461 /* Assets.xcassets */,
+				37EB4F0521064A6000E10461 /* LaunchScreen.storyboard */,
+				37EB4F0821064A6000E10461 /* Info.plist */,
+			);
+			path = "AMDrawingView Demo";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +203,25 @@
 			productReference = 37EB4EE2210649E100E10461 /* AMDrawingViewTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		37EB4EF921064A5E00E10461 /* AMDrawingView Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 37EB4F1421064A6000E10461 /* Build configuration list for PBXNativeTarget "AMDrawingView Demo" */;
+			buildPhases = (
+				37EB4EF621064A5E00E10461 /* Sources */,
+				37EB4EF721064A5E00E10461 /* Frameworks */,
+				37EB4EF821064A5E00E10461 /* Resources */,
+				37EB4F1E21064A8100E10461 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				37EB4F1D21064A8100E10461 /* PBXTargetDependency */,
+			);
+			name = "AMDrawingView Demo";
+			productName = "AMDrawingView Demo";
+			productReference = 37EB4EFA21064A5E00E10461 /* AMDrawingView Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -148,8 +234,12 @@
 				TargetAttributes = {
 					37EB4ED8210649E100E10461 = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 0940;
 					};
 					37EB4EE1210649E100E10461 = {
+						CreatedOnToolsVersion = 9.4;
+					};
+					37EB4EF921064A5E00E10461 = {
 						CreatedOnToolsVersion = 9.4;
 					};
 				};
@@ -160,6 +250,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 37EB4ECF210649E100E10461;
 			productRefGroup = 37EB4EDA210649E100E10461 /* Products */;
@@ -168,6 +259,7 @@
 			targets = (
 				37EB4ED8210649E100E10461 /* AMDrawingView */,
 				37EB4EE1210649E100E10461 /* AMDrawingViewTests */,
+				37EB4EF921064A5E00E10461 /* AMDrawingView Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -187,6 +279,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		37EB4EF821064A5E00E10461 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37EB4F0721064A6000E10461 /* LaunchScreen.storyboard in Resources */,
+				37EB4F0421064A6000E10461 /* Assets.xcassets in Resources */,
+				37EB4F0221064A5E00E10461 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -194,6 +296,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37EB4EF4210649FC00E10461 /* AMDrawingView.swift in Sources */,
+				3777F2FF21068A78009A9AC5 /* AMDrawingTool.swift in Sources */,
+				3777F2FD21068A5C009A9AC5 /* AMShape.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +310,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		37EB4EF621064A5E00E10461 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37EB4EFF21064A5E00E10461 /* ViewController.swift in Sources */,
+				37EB4EFD21064A5E00E10461 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -213,7 +327,31 @@
 			target = 37EB4ED8210649E100E10461 /* AMDrawingView */;
 			targetProxy = 37EB4EE4210649E100E10461 /* PBXContainerItemProxy */;
 		};
+		37EB4F1D21064A8100E10461 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 37EB4ED8210649E100E10461 /* AMDrawingView */;
+			targetProxy = 37EB4F1C21064A8100E10461 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		37EB4F0021064A5E00E10461 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				37EB4F0121064A5E00E10461 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		37EB4F0521064A6000E10461 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				37EB4F0621064A6000E10461 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		37EB4EEB210649E100E10461 /* Debug */ = {
@@ -339,6 +477,7 @@
 		37EB4EEE210649E100E10461 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -356,6 +495,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.asana.AMDrawingView;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -364,6 +504,7 @@
 		37EB4EEF210649E100E10461 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -389,6 +530,7 @@
 		37EB4EF1210649E100E10461 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A679L395M8;
 				INFOPLIST_FILE = AMDrawingViewTests/Info.plist;
@@ -407,6 +549,7 @@
 		37EB4EF2210649E100E10461 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A679L395M8;
 				INFOPLIST_FILE = AMDrawingViewTests/Info.plist;
@@ -416,6 +559,44 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.asana.AMDrawingViewTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		37EB4F1521064A6000E10461 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A679L395M8;
+				INFOPLIST_FILE = "AMDrawingView Demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asana.AMDrawingView-Demo";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		37EB4F1621064A6000E10461 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A679L395M8;
+				INFOPLIST_FILE = "AMDrawingView Demo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asana.AMDrawingView-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -448,6 +629,15 @@
 			buildConfigurations = (
 				37EB4EF1210649E100E10461 /* Debug */,
 				37EB4EF2210649E100E10461 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		37EB4F1421064A6000E10461 /* Build configuration list for PBXNativeTarget "AMDrawingView Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37EB4F1521064A6000E10461 /* Debug */,
+				37EB4F1621064A6000E10461 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
