@@ -8,7 +8,6 @@
 
 import CoreGraphics
 
-
 public class AMLineTool: AMDrawingToolWithShapeInProgress {
   public typealias ShapeType = AMLineShape
 
@@ -17,14 +16,6 @@ public class AMLineTool: AMDrawingToolWithShapeInProgress {
   public var isProgressive: Bool { return false }
 
   public init() {
-
-  }
-
-  public func activate() {
-
-  }
-
-  public func deactivate() {
 
   }
 
@@ -52,6 +43,41 @@ public class AMLineTool: AMDrawingToolWithShapeInProgress {
   }
 }
 
+public class AMRectTool: AMDrawingToolWithShapeInProgress {
+  public typealias ShapeType = AMRectShape
+
+  public var shapeInProgress: AMRectShape?
+
+  public var isProgressive: Bool { return false }
+
+  public init() {
+
+  }
+
+  public func drawPoint(_ point: CGPoint, drawing: AMDrawing) {
+    let shape = AMRectShape()
+    shape.a = point
+    shape.b = point
+    drawing.add(shape: shape)
+  }
+
+  public func drawStart(point: CGPoint, drawing: AMDrawing) {
+    shapeInProgress = AMRectShape()
+    shapeInProgress?.a = point
+    shapeInProgress?.b = point
+  }
+
+  public func drawContine(point: CGPoint, velocity: CGPoint, drawing: AMDrawing) {
+    shapeInProgress?.b = point
+  }
+
+  public func drawEnd(point: CGPoint, drawing: AMDrawing) {
+    shapeInProgress?.b = point
+    drawing.add(shape: shapeInProgress!)
+    shapeInProgress = nil
+  }
+}
+
 public class AMPenTool: AMDrawingToolWithShapeInProgress {
   public typealias ShapeType = AMPenShape
 
@@ -64,14 +90,6 @@ public class AMPenTool: AMDrawingToolWithShapeInProgress {
   public var velocityBasedWidth: Bool = true
 
   public init() {
-
-  }
-
-  public func activate() {
-
-  }
-
-  public func deactivate() {
 
   }
 

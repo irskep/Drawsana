@@ -195,6 +195,8 @@ public protocol AMDrawingTool {
   func renderShapeInProgress(transientContext: CGContext)
 }
 public extension AMDrawingTool {
+  func activate() { }
+  func deactivate() { }
   func renderShapeInProgress(transientContext: CGContext) { }
 }
 

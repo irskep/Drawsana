@@ -28,7 +28,7 @@ public class AMLineShape: AMShapeWithBoundingRect {
     let x1 = min(a.x, b.x)
     let y1 = min(a.y, b.y)
     let x2 = max(a.x, b.x)
-    let y2 = max(b.x, b.y)
+    let y2 = max(a.y, b.y)
     return CGRect(x: x1, y: y1, width: x2 - x1, height: y2 - y1)
       .insetBy(dx: -width/2, dy: -width/2)
   }
@@ -46,6 +46,54 @@ public class AMLineShape: AMShapeWithBoundingRect {
     context.move(to: a)
     context.addLine(to: b)
     context.strokePath()
+  }
+}
+
+public class AMRectShape: AMShapeWithBoundingRect {
+  public var isSelectable: Bool { return true }
+
+  public var a: CGPoint = .zero
+  public var b: CGPoint = .zero
+  public var strokeColor: UIColor = .black
+  public var fillColor: UIColor = .clear
+  public var width: CGFloat = 10
+  public var capStyle: CGLineCap = .round
+  public var joinStyle: CGLineJoin = .round
+  public var dashPhase: CGFloat?
+  public var dashLengths: [CGFloat]?
+
+  public init() {
+
+  }
+
+  public var rect: CGRect {
+    let x1 = min(a.x, b.x)
+    let y1 = min(a.y, b.y)
+    let x2 = max(a.x, b.x)
+    let y2 = max(a.y, b.y)
+    return CGRect(x: x1, y: y1, width: x2 - x1, height: y2 - y1)
+  }
+
+  public var boundingRect: CGRect {
+    return rect.insetBy(dx: -width/2, dy: -width/2)
+  }
+
+  public func render(in context: CGContext) {
+    context.setLineCap(capStyle)
+    context.setLineJoin(joinStyle)
+    context.setLineWidth(width)
+    context.setStrokeColor(strokeColor.cgColor)
+    if let dashPhase = dashPhase, let dashLengths = dashLengths {
+      context.setLineDash(phase: dashPhase, lengths: dashLengths)
+    } else {
+      context.setLineDash(phase: 0, lengths: [])
+    }
+    context.addRect(rect)
+    context.strokePath()
+
+    context.setFillColor(fillColor.cgColor)
+    context.addRect(rect)
+    context.fillPath()
   }
 }
 
