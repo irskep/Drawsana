@@ -8,26 +8,63 @@
 
 import CoreGraphics
 
-public class AMLineTool: AMDrawingToolWithShapeInProgress {
-  public typealias ShapeType = AMLineShape
+// MARK: Main protocol
 
-  public var shapeInProgress: AMLineShape?
+public protocol AMDrawingTool {
+  var isProgressive: Bool { get }
+
+  func activate()
+  func deactivate()
+
+  func drawPoint(_ point: CGPoint, drawing: AMDrawing)
+  func drawStart(point: CGPoint, drawing: AMDrawing)
+  func drawContine(point: CGPoint, velocity: CGPoint, drawing: AMDrawing)
+  func drawEnd(point: CGPoint, drawing: AMDrawing)
+
+  func renderShapeInProgress(transientContext: CGContext)
+}
+public extension AMDrawingTool {
+  func activate() { }
+  func deactivate() { }
+  func renderShapeInProgress(transientContext: CGContext) { }
+}
+
+// MARK: Convenience protocol: automatically render shapeInProgress
+
+public protocol AMShapeInProgressRendering {
+  associatedtype ShapeType: AMShape
+  var shapeInProgress: ShapeType? { get }
+}
+extension AMShapeInProgressRendering {
+  public func renderShapeInProgress(transientContext: CGContext) {
+    shapeInProgress?.render(in: transientContext)
+  }
+}
+
+// MARK: Convenience superclass: create and update shapeInProgress by dragging from point A to point B
+
+public class AMDrawingToolForShapeWithTwoPoints: AMDrawingTool {
+  public typealias ShapeType = AMShape & AMShapeWithTwoPoints
+
+  public var shapeInProgress: ShapeType?
+
+  func makeShape() -> ShapeType {
+    fatalError("Override me")
+  }
 
   public var isProgressive: Bool { return false }
 
-  public init() {
-
-  }
+  public init() { }
 
   public func drawPoint(_ point: CGPoint, drawing: AMDrawing) {
-    let shape = AMLineShape()
+    var shape = makeShape()
     shape.a = point
     shape.b = point
     drawing.add(shape: shape)
   }
 
   public func drawStart(point: CGPoint, drawing: AMDrawing) {
-    shapeInProgress = AMLineShape()
+    shapeInProgress = makeShape()
     shapeInProgress?.a = point
     shapeInProgress?.b = point
   }
@@ -41,79 +78,27 @@ public class AMLineTool: AMDrawingToolWithShapeInProgress {
     drawing.add(shape: shapeInProgress!)
     shapeInProgress = nil
   }
-}
 
-public class AMRectTool: AMDrawingToolWithShapeInProgress {
-  public typealias ShapeType = AMRectShape
-
-  public var shapeInProgress: AMRectShape?
-
-  public var isProgressive: Bool { return false }
-
-  public init() {
-
-  }
-
-  public func drawPoint(_ point: CGPoint, drawing: AMDrawing) {
-    let shape = AMRectShape()
-    shape.a = point
-    shape.b = point
-    drawing.add(shape: shape)
-  }
-
-  public func drawStart(point: CGPoint, drawing: AMDrawing) {
-    shapeInProgress = AMRectShape()
-    shapeInProgress?.a = point
-    shapeInProgress?.b = point
-  }
-
-  public func drawContine(point: CGPoint, velocity: CGPoint, drawing: AMDrawing) {
-    shapeInProgress?.b = point
-  }
-
-  public func drawEnd(point: CGPoint, drawing: AMDrawing) {
-    shapeInProgress?.b = point
-    drawing.add(shape: shapeInProgress!)
-    shapeInProgress = nil
+  public func renderShapeInProgress(transientContext: CGContext) {
+    shapeInProgress?.render(in: transientContext)
   }
 }
 
-public class AMEllipseTool: AMDrawingToolWithShapeInProgress {
-  public typealias ShapeType = AMEllipseShape
+// MARK: Tools
 
-  public var shapeInProgress: AMEllipseShape?
-
-  public var isProgressive: Bool { return false }
-
-  public init() {
-
-  }
-
-  public func drawPoint(_ point: CGPoint, drawing: AMDrawing) {
-    let shape = AMEllipseShape()
-    shape.a = point
-    shape.b = point
-    drawing.add(shape: shape)
-  }
-
-  public func drawStart(point: CGPoint, drawing: AMDrawing) {
-    shapeInProgress = AMEllipseShape()
-    shapeInProgress?.a = point
-    shapeInProgress?.b = point
-  }
-
-  public func drawContine(point: CGPoint, velocity: CGPoint, drawing: AMDrawing) {
-    shapeInProgress?.b = point
-  }
-
-  public func drawEnd(point: CGPoint, drawing: AMDrawing) {
-    shapeInProgress?.b = point
-    drawing.add(shape: shapeInProgress!)
-    shapeInProgress = nil
-  }
+public class AMLineTool: AMDrawingToolForShapeWithTwoPoints {
+  public override func makeShape() -> ShapeType { return AMLineShape() }
 }
 
-public class AMPenTool: AMDrawingToolWithShapeInProgress {
+public class AMRectTool: AMDrawingToolForShapeWithTwoPoints {
+  public override func makeShape() -> ShapeType { return AMRectShape() }
+}
+
+public class AMEllipseTool: AMDrawingToolForShapeWithTwoPoints {
+  public override func makeShape() -> ShapeType { return AMEllipseShape() }
+}
+
+public class AMPenTool: AMDrawingTool, AMShapeInProgressRendering {
   public typealias ShapeType = AMPenShape
 
   public var shapeInProgress: AMPenShape?
@@ -124,9 +109,7 @@ public class AMPenTool: AMDrawingToolWithShapeInProgress {
 
   public var velocityBasedWidth: Bool = true
 
-  public init() {
-
-  }
+  public init() { }
 
   public func drawPoint(_ point: CGPoint, drawing: AMDrawing) {
     let shape = AMPenShape()
@@ -148,12 +131,12 @@ public class AMPenTool: AMDrawingToolWithShapeInProgress {
 
     if velocityBasedWidth {
       segmentWidth = AMDrawingUtils.modulatedWidth(
-        width: shape.width,
+        width: shape.strokeWidth,
         velocity: velocity,
         previousVelocity: lastVelocity,
-        previousWidth: shape.segments.last?.width ?? shape.width)
+        previousWidth: shape.segments.last?.width ?? shape.strokeWidth)
     } else {
-      segmentWidth = shape.width
+      segmentWidth = shape.strokeWidth
     }
     shape.add(segment: AMLineSegment(a: lastPoint, b: point, width: segmentWidth))
     lastVelocity = velocity

@@ -8,13 +8,54 @@
 
 import CoreGraphics
 
-public class AMLineShape: AMShapeWithBoundingRect {
+// MARK: Protocols
+
+public protocol AMShape: AnyObject {
+  var isSelectable: Bool { get }
+  func render(in context: CGContext)
+  func hitTest(point: CGPoint) -> Bool
+}
+
+public protocol AMShapeWithBoundingRect: AMShape {
+  var boundingRect: CGRect { get }
+}
+
+extension AMShapeWithBoundingRect {
+  public func hitTest(point: CGPoint) -> Bool {
+    return boundingRect.contains(point)
+  }
+}
+
+public protocol AMShapeWithTwoPoints {
+  var a: CGPoint { get set }
+  var b: CGPoint { get set }
+
+  var strokeWidth: CGFloat { get set }
+}
+
+extension AMShapeWithTwoPoints {
+  public var rect: CGRect {
+    let x1 = min(a.x, b.x)
+    let y1 = min(a.y, b.y)
+    let x2 = max(a.x, b.x)
+    let y2 = max(a.y, b.y)
+    return CGRect(x: x1, y: y1, width: x2 - x1, height: y2 - y1)
+  }
+
+  public var boundingRect: CGRect {
+    return rect.insetBy(dx: -strokeWidth/2, dy: -strokeWidth/2)
+  }
+}
+
+// MARK: Shapes
+
+public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
   public var isSelectable: Bool { return false }
 
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
   public var color: UIColor = .black
-  public var width: CGFloat = 10
+  public var strokeWidth: CGFloat = 10
   public var capStyle: CGLineCap = .round
   public var joinStyle: CGLineJoin = .round
   public var dashPhase: CGFloat?
@@ -24,19 +65,10 @@ public class AMLineShape: AMShapeWithBoundingRect {
 
   }
 
-  public var boundingRect: CGRect {
-    let x1 = min(a.x, b.x)
-    let y1 = min(a.y, b.y)
-    let x2 = max(a.x, b.x)
-    let y2 = max(a.y, b.y)
-    return CGRect(x: x1, y: y1, width: x2 - x1, height: y2 - y1)
-      .insetBy(dx: -width/2, dy: -width/2)
-  }
-
   public func render(in context: CGContext) {
     context.setLineCap(capStyle)
     context.setLineJoin(joinStyle)
-    context.setLineWidth(width)
+    context.setLineWidth(strokeWidth)
     context.setStrokeColor(color.cgColor)
     if let dashPhase = dashPhase, let dashLengths = dashLengths {
       context.setLineDash(phase: dashPhase, lengths: dashLengths)
@@ -49,14 +81,14 @@ public class AMLineShape: AMShapeWithBoundingRect {
   }
 }
 
-public class AMRectShape: AMShapeWithBoundingRect {
+public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
   public var isSelectable: Bool { return true }
 
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
   public var strokeColor: UIColor = .black
   public var fillColor: UIColor = .clear
-  public var width: CGFloat = 10
+  public var strokeWidth: CGFloat = 10
   public var capStyle: CGLineCap = .round
   public var joinStyle: CGLineJoin = .round
   public var dashPhase: CGFloat?
@@ -66,22 +98,10 @@ public class AMRectShape: AMShapeWithBoundingRect {
 
   }
 
-  public var rect: CGRect {
-    let x1 = min(a.x, b.x)
-    let y1 = min(a.y, b.y)
-    let x2 = max(a.x, b.x)
-    let y2 = max(a.y, b.y)
-    return CGRect(x: x1, y: y1, width: x2 - x1, height: y2 - y1)
-  }
-
-  public var boundingRect: CGRect {
-    return rect.insetBy(dx: -width/2, dy: -width/2)
-  }
-
   public func render(in context: CGContext) {
     context.setLineCap(capStyle)
     context.setLineJoin(joinStyle)
-    context.setLineWidth(width)
+    context.setLineWidth(strokeWidth)
     context.setStrokeColor(strokeColor.cgColor)
     if let dashPhase = dashPhase, let dashLengths = dashLengths {
       context.setLineDash(phase: dashPhase, lengths: dashLengths)
@@ -97,14 +117,14 @@ public class AMRectShape: AMShapeWithBoundingRect {
   }
 }
 
-public class AMEllipseShape: AMShapeWithBoundingRect {
+public class AMEllipseShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
   public var isSelectable: Bool { return true }
 
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
   public var strokeColor: UIColor = .black
   public var fillColor: UIColor = .clear
-  public var width: CGFloat = 10
+  public var strokeWidth: CGFloat = 10
   public var capStyle: CGLineCap = .round
   public var joinStyle: CGLineJoin = .round
   public var dashPhase: CGFloat?
@@ -114,22 +134,10 @@ public class AMEllipseShape: AMShapeWithBoundingRect {
 
   }
 
-  public var rect: CGRect {
-    let x1 = min(a.x, b.x)
-    let y1 = min(a.y, b.y)
-    let x2 = max(a.x, b.x)
-    let y2 = max(a.y, b.y)
-    return CGRect(x: x1, y: y1, width: x2 - x1, height: y2 - y1)
-  }
-
-  public var boundingRect: CGRect {
-    return rect.insetBy(dx: -width/2, dy: -width/2)
-  }
-
   public func render(in context: CGContext) {
     context.setLineCap(capStyle)
     context.setLineJoin(joinStyle)
-    context.setLineWidth(width)
+    context.setLineWidth(strokeWidth)
     context.setStrokeColor(strokeColor.cgColor)
     if let dashPhase = dashPhase, let dashLengths = dashLengths {
       context.setLineDash(phase: dashPhase, lengths: dashLengths)
@@ -160,7 +168,7 @@ public class AMPenShape: AMShape {
   public var isFinished = true
   public var color: UIColor = .black
   public var start: CGPoint = .zero
-  public var width: CGFloat = 10
+  public var strokeWidth: CGFloat = 10
   public var segments: [AMLineSegment] = []
   public var isEraser: Bool = false
 
@@ -178,7 +186,7 @@ public class AMPenShape: AMShape {
       if !isFinished {
         // Draw a dot
         context.setFillColor(color.cgColor)
-        context.addArc(center: start, radius: width, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+        context.addArc(center: start, radius: strokeWidth / 2, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
         context.fillPath()
       } else {
         // draw nothing; user will keep drawing
