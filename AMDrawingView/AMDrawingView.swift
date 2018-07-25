@@ -22,6 +22,11 @@ private func renderImage(size: CGSize, _ code: (CGContext) -> Void) -> UIImage? 
 
 public class AMDrawingView: UIView {
   public var tool: AMDrawingTool?
+  public var globalToolState: AMGlobalToolState {
+    didSet {
+      tool?.apply(state: globalToolState)
+    }
+  }
   public lazy var drawing: AMDrawing = { return AMDrawing(size: bounds.size, delegate: self) }()
 
   private var persistentBuffer: UIImage?
@@ -30,6 +35,7 @@ public class AMDrawingView: UIView {
   private let drawingContentView = UIView()
 
   public override init(frame: CGRect) {
+    globalToolState = AMGlobalToolState(strokeColor: .blue, fillColor: nil, strokeWidth: 20)
     super.init(frame: frame)
     backgroundColor = .red
 
@@ -37,6 +43,7 @@ public class AMDrawingView: UIView {
   }
 
   required public init?(coder aDecoder: NSCoder) {
+    globalToolState = AMGlobalToolState(strokeColor: .blue, fillColor: nil, strokeWidth: 20)
     super.init(coder: aDecoder)
     commonInit()
   }
@@ -92,16 +99,16 @@ public class AMDrawingView: UIView {
       } else {
         transientBuffer = nil
       }
-      tool?.drawStart(point: point, drawing: drawing)
+      tool?.drawStart(point: point, drawing: drawing, state: globalToolState)
       updateUncommittedShapeBuffers()
     case .changed:
-      tool?.drawContine(point: point, velocity: sender.velocity(in: self), drawing: drawing)
+      tool?.drawContinue(point: point, velocity: sender.velocity(in: self), drawing: drawing, state: globalToolState)
       updateUncommittedShapeBuffers()
     case .ended:
-      tool?.drawEnd(point: point, drawing: drawing)
+      tool?.drawEnd(point: point, drawing: drawing, state: globalToolState)
       clearUncommittedShapeBuffers()
     case .failed:
-      tool?.drawEnd(point: point, drawing: drawing)
+      tool?.drawEnd(point: point, drawing: drawing, state: globalToolState)
       clearUncommittedShapeBuffers()
     default:
       assert(false, "State not handled")
@@ -109,7 +116,7 @@ public class AMDrawingView: UIView {
   }
 
   @objc private func didTap(sender: UITapGestureRecognizer) {
-    tool?.drawPoint(sender.location(in: self), drawing: drawing)
+    tool?.drawPoint(sender.location(in: self), drawing: drawing, state: globalToolState)
   }
 
   // MARK: Making stuff show up
@@ -161,4 +168,10 @@ public class AMDrawing {
 
 public protocol AMDrawingDelegate: AnyObject {
   func drawingDidAddShape(_ shape: AMShape)
+}
+
+public struct AMGlobalToolState {
+  var strokeColor: UIColor?
+  var fillColor: UIColor?
+  var strokeWidth: CGFloat
 }

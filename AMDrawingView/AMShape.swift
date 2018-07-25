@@ -47,14 +47,40 @@ extension AMShapeWithTwoPoints {
   }
 }
 
+public protocol AMShapeWithStandardState: AnyObject, AMToolStateAppliable {
+  var strokeColor: UIColor? { get set }
+  var fillColor: UIColor? { get set }
+  var strokeWidth: CGFloat { get set }
+}
+
+extension AMShapeWithStandardState {
+  public func apply(state: AMGlobalToolState) {
+    strokeColor = state.strokeColor
+    fillColor = state.fillColor
+    strokeWidth = state.strokeWidth
+  }
+}
+
+public protocol AMShapeWithStrokeState: AnyObject, AMToolStateAppliable {
+  var strokeColor: UIColor { get set }
+  var strokeWidth: CGFloat { get set }
+}
+
+extension AMShapeWithStrokeState {
+  public func apply(state: AMGlobalToolState) {
+    strokeColor = state.strokeColor ?? .black
+    strokeWidth = state.strokeWidth
+  }
+}
+
 // MARK: Shapes
 
-public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
+public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStrokeState {
   public var isSelectable: Bool { return false }
 
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
-  public var color: UIColor = .black
+  public var strokeColor: UIColor = .black
   public var strokeWidth: CGFloat = 10
   public var capStyle: CGLineCap = .round
   public var joinStyle: CGLineJoin = .round
@@ -69,7 +95,7 @@ public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
     context.setLineCap(capStyle)
     context.setLineJoin(joinStyle)
     context.setLineWidth(strokeWidth)
-    context.setStrokeColor(color.cgColor)
+    context.setStrokeColor(strokeColor.cgColor)
     if let dashPhase = dashPhase, let dashLengths = dashLengths {
       context.setLineDash(phase: dashPhase, lengths: dashLengths)
     } else {
@@ -81,13 +107,13 @@ public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
   }
 }
 
-public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
+public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStandardState {
   public var isSelectable: Bool { return true }
 
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
-  public var strokeColor: UIColor = .black
-  public var fillColor: UIColor = .clear
+  public var strokeColor: UIColor? = .black
+  public var fillColor: UIColor? = .clear
   public var strokeWidth: CGFloat = 10
   public var capStyle: CGLineCap = .round
   public var joinStyle: CGLineJoin = .round
@@ -102,28 +128,32 @@ public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
     context.setLineCap(capStyle)
     context.setLineJoin(joinStyle)
     context.setLineWidth(strokeWidth)
-    context.setStrokeColor(strokeColor.cgColor)
-    if let dashPhase = dashPhase, let dashLengths = dashLengths {
-      context.setLineDash(phase: dashPhase, lengths: dashLengths)
-    } else {
-      context.setLineDash(phase: 0, lengths: [])
+    if let strokeColor = strokeColor {
+      context.setStrokeColor(strokeColor.cgColor)
+      if let dashPhase = dashPhase, let dashLengths = dashLengths {
+        context.setLineDash(phase: dashPhase, lengths: dashLengths)
+      } else {
+        context.setLineDash(phase: 0, lengths: [])
+      }
+      context.addRect(rect)
+      context.strokePath()
     }
-    context.addRect(rect)
-    context.strokePath()
 
-    context.setFillColor(fillColor.cgColor)
-    context.addRect(rect)
-    context.fillPath()
+    if let fillColor = fillColor {
+      context.setFillColor(fillColor.cgColor)
+      context.addRect(rect)
+      context.fillPath()
+    }
   }
 }
 
-public class AMEllipseShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
+public class AMEllipseShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStandardState {
   public var isSelectable: Bool { return true }
 
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
-  public var strokeColor: UIColor = .black
-  public var fillColor: UIColor = .clear
+  public var strokeColor: UIColor? = .black
+  public var fillColor: UIColor? = .clear
   public var strokeWidth: CGFloat = 10
   public var capStyle: CGLineCap = .round
   public var joinStyle: CGLineJoin = .round
@@ -138,19 +168,24 @@ public class AMEllipseShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints {
     context.setLineCap(capStyle)
     context.setLineJoin(joinStyle)
     context.setLineWidth(strokeWidth)
-    context.setStrokeColor(strokeColor.cgColor)
-    if let dashPhase = dashPhase, let dashLengths = dashLengths {
-      context.setLineDash(phase: dashPhase, lengths: dashLengths)
-    } else {
-      context.setLineDash(phase: 0, lengths: [])
+
+    if let strokeColor = strokeColor {
+      context.setStrokeColor(strokeColor.cgColor)
+      if let dashPhase = dashPhase, let dashLengths = dashLengths {
+        context.setLineDash(phase: dashPhase, lengths: dashLengths)
+      } else {
+        context.setLineDash(phase: 0, lengths: [])
+      }
+
+      context.addEllipse(in: rect)
+      context.strokePath()
     }
 
-    context.addEllipse(in: rect)
-    context.strokePath()
-
-    context.setFillColor(fillColor.cgColor)
-    context.addEllipse(in: rect)
-    context.fillPath()
+    if let fillColor = fillColor {
+      context.setFillColor(fillColor.cgColor)
+      context.addEllipse(in: rect)
+      context.fillPath()
+    }
   }
 }
 
@@ -164,9 +199,9 @@ public struct AMLineSegment {
   }
 }
 
-public class AMPenShape: AMShape {
+public class AMPenShape: AMShape, AMShapeWithStrokeState {
   public var isFinished = true
-  public var color: UIColor = .black
+  public var strokeColor: UIColor = .black
   public var start: CGPoint = .zero
   public var strokeWidth: CGFloat = 10
   public var segments: [AMLineSegment] = []
@@ -185,7 +220,7 @@ public class AMPenShape: AMShape {
     guard !segments.isEmpty else {
       if !isFinished {
         // Draw a dot
-        context.setFillColor(color.cgColor)
+        context.setFillColor(strokeColor.cgColor)
         context.addArc(center: start, radius: strokeWidth / 2, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
         context.fillPath()
       } else {
@@ -196,7 +231,7 @@ public class AMPenShape: AMShape {
 
     context.setLineCap(.round)
     context.setLineJoin(.round)
-    context.setStrokeColor(color.cgColor)
+    context.setStrokeColor(strokeColor.cgColor)
     if isEraser {
       context.setBlendMode(.clear)
     }

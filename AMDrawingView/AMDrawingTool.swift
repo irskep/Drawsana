@@ -8,24 +8,31 @@
 
 import CoreGraphics
 
+public protocol AMToolStateAppliable {
+  func apply(state: AMGlobalToolState)
+}
+
 // MARK: Main protocol
 
-public protocol AMDrawingTool {
+public protocol AMDrawingTool: AMToolStateAppliable {
   var isProgressive: Bool { get }
 
   func activate()
   func deactivate()
 
-  func drawPoint(_ point: CGPoint, drawing: AMDrawing)
-  func drawStart(point: CGPoint, drawing: AMDrawing)
-  func drawContine(point: CGPoint, velocity: CGPoint, drawing: AMDrawing)
-  func drawEnd(point: CGPoint, drawing: AMDrawing)
+  func drawPoint(_ point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState)
+  func drawStart(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState)
+  func drawContinue(point: CGPoint, velocity: CGPoint, drawing: AMDrawing, state: AMGlobalToolState)
+  func drawEnd(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState)
+
+  func apply(state: AMGlobalToolState)
 
   func renderShapeInProgress(transientContext: CGContext)
 }
 public extension AMDrawingTool {
   func activate() { }
   func deactivate() { }
+  func apply(state: AMGlobalToolState) { }
   func renderShapeInProgress(transientContext: CGContext) { }
 }
 
@@ -44,7 +51,7 @@ extension AMShapeInProgressRendering {
 // MARK: Convenience superclass: create and update shapeInProgress by dragging from point A to point B
 
 public class AMDrawingToolForShapeWithTwoPoints: AMDrawingTool {
-  public typealias ShapeType = AMShape & AMShapeWithTwoPoints
+  public typealias ShapeType = AMShape & AMShapeWithTwoPoints & AMToolStateAppliable
 
   public var shapeInProgress: ShapeType?
 
@@ -56,24 +63,26 @@ public class AMDrawingToolForShapeWithTwoPoints: AMDrawingTool {
 
   public init() { }
 
-  public func drawPoint(_ point: CGPoint, drawing: AMDrawing) {
+  public func drawPoint(_ point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
     var shape = makeShape()
     shape.a = point
     shape.b = point
+    shape.apply(state: state)
     drawing.add(shape: shape)
   }
 
-  public func drawStart(point: CGPoint, drawing: AMDrawing) {
+  public func drawStart(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
     shapeInProgress = makeShape()
     shapeInProgress?.a = point
     shapeInProgress?.b = point
+    shapeInProgress?.apply(state: state)
   }
 
-  public func drawContine(point: CGPoint, velocity: CGPoint, drawing: AMDrawing) {
+  public func drawContinue(point: CGPoint, velocity: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
     shapeInProgress?.b = point
   }
 
-  public func drawEnd(point: CGPoint, drawing: AMDrawing) {
+  public func drawEnd(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
     shapeInProgress?.b = point
     drawing.add(shape: shapeInProgress!)
     shapeInProgress = nil
@@ -111,20 +120,22 @@ public class AMPenTool: AMDrawingTool, AMShapeInProgressRendering {
 
   public init() { }
 
-  public func drawPoint(_ point: CGPoint, drawing: AMDrawing) {
+  public func drawPoint(_ point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
     let shape = AMPenShape()
     shape.start = point
     shape.isFinished = false
+    shape.apply(state: state)
     drawing.add(shape: shape)
   }
 
-  public func drawStart(point: CGPoint, drawing: AMDrawing) {
+  public func drawStart(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
     lastVelocity = .zero
     shapeInProgress = AMPenShape()
     shapeInProgress?.start = point
+    shapeInProgress?.apply(state: state)
   }
 
-  public func drawContine(point: CGPoint, velocity: CGPoint, drawing: AMDrawing) {
+  public func drawContinue(point: CGPoint, velocity: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
     guard let shape = shapeInProgress else { return }
     let lastPoint = shape.segments.last?.b ?? shape.start
     let segmentWidth: CGFloat
@@ -142,7 +153,7 @@ public class AMPenTool: AMDrawingTool, AMShapeInProgressRendering {
     lastVelocity = velocity
   }
 
-  public func drawEnd(point: CGPoint, drawing: AMDrawing) {
+  public func drawEnd(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
     shapeInProgress?.isFinished = true
     drawing.add(shape: shapeInProgress!)
     shapeInProgress = nil
@@ -159,8 +170,8 @@ public class AMEraserTool: AMPenTool {
     velocityBasedWidth = false
   }
 
-  public override func drawStart(point: CGPoint, drawing: AMDrawing) {
-    super.drawStart(point: point, drawing: drawing)
+  public override func drawStart(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
+    super.drawStart(point: point, drawing: drawing, state: state)
     shapeInProgress?.isEraser = true
   }
 }
