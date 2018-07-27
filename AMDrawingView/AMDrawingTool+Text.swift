@@ -16,9 +16,9 @@ public class AMSelectionTool: AMDrawingTool {
   }
 
   public func drawPoint(_ point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
-    var newSelection: AMShapeWithBoundingRect?
+    var newSelection: AMSelectableShape?
     for shape in drawing.shapes {
-      if shape.hitTest(point: point) && shape.isSelectable, let castShape = shape as? AMShapeWithBoundingRect, castShape !== state.selectedShape {
+      if shape.hitTest(point: point), let castShape = shape as? AMSelectableShape, castShape !== state.selectedShape {
         newSelection = castShape
         break
       }

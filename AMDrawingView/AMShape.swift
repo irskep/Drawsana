@@ -8,13 +8,20 @@
 
 import CoreGraphics
 
-// MARK: Protocols
+public struct AMShapeTransform {
+  var translation: CGPoint
+  var rotation: CGFloat
+  var scale: CGFloat
+}
+
+// MARK: Protocol: AMShape
 
 public protocol AMShape: AnyObject {
-  var isSelectable: Bool { get }
   func render(in context: CGContext)
   func hitTest(point: CGPoint) -> Bool
 }
+
+// MARK: Protocol: AMShapeWithBoundingRect
 
 public protocol AMShapeWithBoundingRect: AMShape {
   var boundingRect: CGRect { get }
@@ -25,6 +32,14 @@ extension AMShapeWithBoundingRect {
     return boundingRect.contains(point)
   }
 }
+
+// MARK: Protocol: AMSelectableShape
+
+public protocol AMSelectableShape: AMShapeWithBoundingRect {
+  var transform: AMShapeTransform? { get set }
+}
+
+// MARK: Protocol: AMShapeWithTwoPoints
 
 public protocol AMShapeWithTwoPoints {
   var a: CGPoint { get set }
@@ -47,6 +62,8 @@ extension AMShapeWithTwoPoints {
   }
 }
 
+// MARK: Protocol: AMShapeWithStandardState
+
 public protocol AMShapeWithStandardState: AnyObject, AMToolStateAppliable {
   var strokeColor: UIColor? { get set }
   var fillColor: UIColor? { get set }
@@ -60,6 +77,8 @@ extension AMShapeWithStandardState {
     strokeWidth = state.strokeWidth
   }
 }
+
+// MARK: Protocol: AMShapeWithStrokeState
 
 public protocol AMShapeWithStrokeState: AnyObject, AMToolStateAppliable {
   var strokeColor: UIColor { get set }
@@ -75,9 +94,7 @@ extension AMShapeWithStrokeState {
 
 // MARK: Shapes
 
-public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStrokeState {
-  public var isSelectable: Bool { return true }
-
+public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStrokeState, AMSelectableShape {
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
   public var strokeColor: UIColor = .black
@@ -86,6 +103,7 @@ public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShape
   public var joinStyle: CGLineJoin = .round
   public var dashPhase: CGFloat?
   public var dashLengths: [CGFloat]?
+  public var transform: AMShapeTransform?
 
   public init() {
 
@@ -107,9 +125,7 @@ public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShape
   }
 }
 
-public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStandardState {
-  public var isSelectable: Bool { return true }
-
+public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStandardState, AMSelectableShape {
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
   public var strokeColor: UIColor? = .black
@@ -119,6 +135,7 @@ public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShape
   public var joinStyle: CGLineJoin = .round
   public var dashPhase: CGFloat?
   public var dashLengths: [CGFloat]?
+  public var transform: AMShapeTransform?
 
   public init() {
 
@@ -147,9 +164,7 @@ public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShape
   }
 }
 
-public class AMEllipseShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStandardState {
-  public var isSelectable: Bool { return true }
-
+public class AMEllipseShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStandardState, AMSelectableShape {
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
   public var strokeColor: UIColor? = .black
@@ -159,6 +174,7 @@ public class AMEllipseShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMSh
   public var joinStyle: CGLineJoin = .round
   public var dashPhase: CGFloat?
   public var dashLengths: [CGFloat]?
+  public var transform: AMShapeTransform?
 
   public init() {
 

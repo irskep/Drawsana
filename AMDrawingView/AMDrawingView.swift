@@ -179,7 +179,7 @@ extension AMDrawingView: AMDrawingDelegate {
 extension AMDrawingView: AMGlobalToolStateDelegate {
   public func toolState(
     _ toolState: AMGlobalToolState,
-    didSetSelectedShape selectedShape: AMShapeWithBoundingRect?)
+    didSetSelectedShape selectedShape: AMSelectableShape?)
   {
     tool?.apply(state: globalToolState)
     applySelectionViewState()
@@ -213,7 +213,7 @@ public class AMGlobalToolState {
   public var strokeColor: UIColor?
   public var fillColor: UIColor?
   public var strokeWidth: CGFloat
-  public var selectedShape: AMShapeWithBoundingRect? {
+  public var selectedShape: AMSelectableShape? {
     didSet {
       delegate?.toolState(self, didSetSelectedShape: selectedShape)
     }
@@ -225,7 +225,7 @@ public class AMGlobalToolState {
     strokeColor: UIColor?,
     fillColor: UIColor?,
     strokeWidth: CGFloat,
-    selectedShape: AMShapeWithBoundingRect?)
+    selectedShape: AMSelectableShape?)
   {
     self.strokeColor = strokeColor
     self.fillColor = fillColor
@@ -237,5 +237,5 @@ public class AMGlobalToolState {
 public protocol AMGlobalToolStateDelegate: AnyObject {
   func toolState(
     _ toolState: AMGlobalToolState,
-    didSetSelectedShape selectedShape: AMShapeWithBoundingRect?)
+    didSetSelectedShape selectedShape: AMSelectableShape?)
 }
