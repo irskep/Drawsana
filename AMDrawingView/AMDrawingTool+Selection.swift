@@ -18,8 +18,13 @@ public class AMSelectionTool: AMDrawingTool {
   public func drawPoint(_ point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
     var newSelection: AMSelectableShape?
     for shape in drawing.shapes {
-      if shape.hitTest(point: point), let castShape = shape as? AMSelectableShape, castShape !== state.selectedShape {
-        newSelection = castShape
+      if shape.hitTest(point: point), let castShape = shape as? AMSelectableShape {
+        if castShape === state.selectedShape {
+          // TODO: fire a notification? need to somehow allow the text tool to
+          // take over if the shape is text.
+        } else {
+          newSelection = castShape
+        }
         break
       }
     }
