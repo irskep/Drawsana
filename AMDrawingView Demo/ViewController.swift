@@ -15,6 +15,7 @@ class ViewController: UIViewController {
 
   let tools: [AMDrawingTool] = [
     AMEllipseTool(),
+    AMSelectionTool(),
     AMPenTool(),
     AMEraserTool(),
     AMLineTool(),
@@ -22,6 +23,7 @@ class ViewController: UIViewController {
   ]
   let toolNames: [String] = [
     "Ellipse",
+    "Select",
     "Pen",
     "Eraser",
     "Line",

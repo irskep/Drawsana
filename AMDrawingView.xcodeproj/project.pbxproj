@@ -11,6 +11,7 @@
 		3777F2FF21068A78009A9AC5 /* AMDrawingTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777F2FE21068A78009A9AC5 /* AMDrawingTool.swift */; };
 		37885E2A210A9C69003A918F /* AMDrawingTool+TwoPointShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37885E29210A9C69003A918F /* AMDrawingTool+TwoPointShapes.swift */; };
 		37885E2C210A9C95003A918F /* AMDrawingTool+Freehand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37885E2B210A9C95003A918F /* AMDrawingTool+Freehand.swift */; };
+		37885E2E210A9CDA003A918F /* AMDrawingTool+Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37885E2D210A9CDA003A918F /* AMDrawingTool+Text.swift */; };
 		37EB4EE3210649E100E10461 /* AMDrawingView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* AMDrawingView.framework */; };
 		37EB4EE8210649E100E10461 /* AMDrawingViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB4EE7210649E100E10461 /* AMDrawingViewTests.swift */; };
 		37EB4EEA210649E100E10461 /* AMDrawingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 37EB4EDC210649E100E10461 /* AMDrawingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -60,6 +61,7 @@
 		3777F2FE21068A78009A9AC5 /* AMDrawingTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMDrawingTool.swift; sourceTree = "<group>"; };
 		37885E29210A9C69003A918F /* AMDrawingTool+TwoPointShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AMDrawingTool+TwoPointShapes.swift"; sourceTree = "<group>"; };
 		37885E2B210A9C95003A918F /* AMDrawingTool+Freehand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AMDrawingTool+Freehand.swift"; sourceTree = "<group>"; };
+		37885E2D210A9CDA003A918F /* AMDrawingTool+Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AMDrawingTool+Text.swift"; sourceTree = "<group>"; };
 		37EB4ED9210649E100E10461 /* AMDrawingView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AMDrawingView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37EB4EDC210649E100E10461 /* AMDrawingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMDrawingView.h; sourceTree = "<group>"; };
 		37EB4EDD210649E100E10461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				3777F2FC21068A5C009A9AC5 /* AMShape.swift */,
 				3777F2FE21068A78009A9AC5 /* AMDrawingTool.swift */,
 				37885E2B210A9C95003A918F /* AMDrawingTool+Freehand.swift */,
+				37885E2D210A9CDA003A918F /* AMDrawingTool+Text.swift */,
 				37885E29210A9C69003A918F /* AMDrawingTool+TwoPointShapes.swift */,
 			);
 			path = AMDrawingView;
@@ -303,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37885E2A210A9C69003A918F /* AMDrawingTool+TwoPointShapes.swift in Sources */,
+				37885E2E210A9CDA003A918F /* AMDrawingTool+Text.swift in Sources */,
 				37EB4EF4210649FC00E10461 /* AMDrawingView.swift in Sources */,
 				3777F2FF21068A78009A9AC5 /* AMDrawingTool.swift in Sources */,
 				3777F2FD21068A5C009A9AC5 /* AMShape.swift in Sources */,

@@ -24,7 +24,9 @@ public class AMDrawingView: UIView {
   public var tool: AMDrawingTool?
   public var globalToolState: AMGlobalToolState {
     didSet {
+      globalToolState.delegate = self
       tool?.apply(state: globalToolState)
+      applySelectionViewState()
     }
   }
   public lazy var drawing: AMDrawing = { return AMDrawing(size: bounds.size, delegate: self) }()
@@ -34,8 +36,11 @@ public class AMDrawingView: UIView {
   private var transientBufferWithShapeInProgress: UIImage?
   private let drawingContentView = UIView()
 
+  public let selectionIndicatorView = UIView()
+
   public override init(frame: CGRect) {
-    globalToolState = AMGlobalToolState(strokeColor: .blue, fillColor: nil, strokeWidth: 20)
+    globalToolState = AMGlobalToolState(
+      strokeColor: .blue, fillColor: nil, strokeWidth: 20, selectedShape: nil)
     super.init(frame: frame)
     backgroundColor = .red
 
@@ -43,27 +48,41 @@ public class AMDrawingView: UIView {
   }
 
   required public init?(coder aDecoder: NSCoder) {
-    globalToolState = AMGlobalToolState(strokeColor: .blue, fillColor: nil, strokeWidth: 20)
+    globalToolState = AMGlobalToolState(
+      strokeColor: .blue, fillColor: nil, strokeWidth: 20, selectedShape: nil)
     super.init(coder: aDecoder)
     commonInit()
   }
 
   private func commonInit() {
+    globalToolState.delegate = self
     isUserInteractionEnabled = true
     layer.actions = [
       "contents": NSNull(),
     ]
-    addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPan(sender:))))
-    addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap(sender:))))
+
+
+    addSubview(drawingContentView)
+    addSubview(selectionIndicatorView)
 
     drawingContentView.translatesAutoresizingMaskIntoConstraints = false
-    addSubview(drawingContentView)
     NSLayoutConstraint.activate([
       drawingContentView.leftAnchor.constraint(equalTo: leftAnchor),
       drawingContentView.rightAnchor.constraint(equalTo: rightAnchor),
       drawingContentView.topAnchor.constraint(equalTo: topAnchor),
       drawingContentView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ])
+
+    selectionIndicatorView.translatesAutoresizingMaskIntoConstraints = true
+    selectionIndicatorView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+    // TODO: allow config
+    selectionIndicatorView.layer.borderColor = UIColor.blue.cgColor
+    selectionIndicatorView.layer.borderWidth = 1
+    selectionIndicatorView.isHidden = true
+
+    addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPan(sender:))))
+    addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap(sender:))))
   }
 
   // MARK: Gesture recognizers
@@ -125,6 +144,16 @@ public class AMDrawingView: UIView {
     self.drawingContentView.layer.contents = persistentBuffer?.cgImage
   }
 
+  private func applySelectionViewState() {
+    guard let shape = globalToolState.selectedShape else {
+      selectionIndicatorView.isHidden = true
+      return
+    }
+    // TODO: allow inset config
+    selectionIndicatorView.frame = shape.boundingRect.insetBy(dx: -4, dy: -4)
+    selectionIndicatorView.isHidden = false
+  }
+
 //  private func recreatePersistentBuffer() {
 //    autoreleasepool {
 //      self.persistentBuffer = renderer.image(actions: {
@@ -144,6 +173,16 @@ extension AMDrawingView: AMDrawingDelegate {
       shape.render(in: $0)
     }
     reapplyLayerContents()
+  }
+}
+
+extension AMDrawingView: AMGlobalToolStateDelegate {
+  public func toolState(
+    _ toolState: AMGlobalToolState,
+    didSetSelectedShape selectedShape: AMShapeWithBoundingRect?)
+  {
+    tool?.apply(state: globalToolState)
+    applySelectionViewState()
   }
 }
 
@@ -170,8 +209,33 @@ public protocol AMDrawingDelegate: AnyObject {
   func drawingDidAddShape(_ shape: AMShape)
 }
 
-public struct AMGlobalToolState {
-  var strokeColor: UIColor?
-  var fillColor: UIColor?
-  var strokeWidth: CGFloat
+public class AMGlobalToolState {
+  public var strokeColor: UIColor?
+  public var fillColor: UIColor?
+  public var strokeWidth: CGFloat
+  public var selectedShape: AMShapeWithBoundingRect? {
+    didSet {
+      delegate?.toolState(self, didSetSelectedShape: selectedShape)
+    }
+  }
+
+  public weak var delegate: AMGlobalToolStateDelegate?
+
+  init(
+    strokeColor: UIColor?,
+    fillColor: UIColor?,
+    strokeWidth: CGFloat,
+    selectedShape: AMShapeWithBoundingRect?)
+  {
+    self.strokeColor = strokeColor
+    self.fillColor = fillColor
+    self.strokeWidth = strokeWidth
+    self.selectedShape = selectedShape
+  }
+}
+
+public protocol AMGlobalToolStateDelegate: AnyObject {
+  func toolState(
+    _ toolState: AMGlobalToolState,
+    didSetSelectedShape selectedShape: AMShapeWithBoundingRect?)
 }

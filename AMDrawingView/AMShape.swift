@@ -76,7 +76,7 @@ extension AMShapeWithStrokeState {
 // MARK: Shapes
 
 public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShapeWithStrokeState {
-  public var isSelectable: Bool { return false }
+  public var isSelectable: Bool { return true }
 
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
