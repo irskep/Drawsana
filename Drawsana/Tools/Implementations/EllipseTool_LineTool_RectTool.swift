@@ -62,6 +62,10 @@ public class LineTool: DrawingToolForShapeWithTwoPoints {
 
 public class RectTool: DrawingToolForShapeWithTwoPoints {
   public override func makeShape() -> ShapeType { return RectShape() }
+
+  public func activate(context: ToolOperationContext, shape: Shape?) {
+    context.toolState.selectedShape = nil
+  }
 }
 
 public class EllipseTool: DrawingToolForShapeWithTwoPoints {

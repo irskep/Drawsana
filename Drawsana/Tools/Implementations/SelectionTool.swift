@@ -23,8 +23,7 @@ public class SelectionTool: DrawingTool {
     for shape in context.drawing.shapes {
       if shape.hitTest(point: point), let castShape = shape as? ShapeSelectable {
         if castShape === context.toolState.selectedShape {
-          // TODO: fire a notification? need to somehow allow the text tool to
-          // take over if the shape is text.
+          context.shapeForAssociatedTool = castShape
         } else {
           newSelection = castShape
         }

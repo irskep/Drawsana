@@ -8,8 +8,13 @@
 
 import UIKit
 
+public protocol DrawsanaViewDelegate: AnyObject {
+  func drawsanaViewAssociatedTool(for shape: Shape) -> DrawingTool?
+}
+
 public class DrawsanaView: UIView {
-  public var tool: DrawingTool?
+  public weak var delegate: DrawsanaViewDelegate?
+  public private(set) var tool: DrawingTool?
   public var globalToolState: GlobalToolState {
     didSet {
       globalToolState.delegate = self
@@ -18,6 +23,8 @@ public class DrawsanaView: UIView {
     }
   }
   public lazy var drawing: Drawing = { return Drawing(size: bounds.size, delegate: self) }()
+
+  private var shapeToPassToActivatedTool: Shape?
 
   private var persistentBuffer: UIImage?
   private var transientBuffer: UIImage?
@@ -75,6 +82,19 @@ public class DrawsanaView: UIView {
     addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap(sender:))))
   }
 
+  // MARK: API
+
+  public func set(tool: DrawingTool, shape: Shape? = nil) {
+//    let context = ToolOperationContext(drawing: drawing, toolState: globalToolState)
+//    self.tool?.deactivate(context: context)
+    self.tool = tool
+    DispatchQueue.main.async {
+      // TODO: why does this break everything if run in the same run loop? Maybe because autoreleasepool?
+      tool.activate(context: ToolOperationContext(drawing: self.drawing, toolState: self.globalToolState), shape: shape)
+    }
+    shapeToPassToActivatedTool = nil
+  }
+
   // MARK: Gesture recognizers
 
   @objc private func didPan(sender: UIPanGestureRecognizer) {
@@ -98,7 +118,7 @@ public class DrawsanaView: UIView {
     }
 
     let point = sender.location(in: self)
-    let context = ToolOperationContext(drawing: drawing, toolState: globalToolState, isPersistentBufferDirty: false)
+    let context = ToolOperationContext(drawing: drawing, toolState: globalToolState)
     switch sender.state {
     case .began:
       if let persistentBuffer = persistentBuffer, let cgImage = persistentBuffer.cgImage {
@@ -131,8 +151,16 @@ public class DrawsanaView: UIView {
   }
 
   @objc private func didTap(sender: UITapGestureRecognizer) {
-    let context = ToolOperationContext(drawing: drawing, toolState: globalToolState, isPersistentBufferDirty: false)
+    let context = ToolOperationContext(
+      drawing: drawing,
+      toolState: globalToolState)
     tool?.handleTap(context: context, point: sender.location(in: self))
+    if
+      let shape = context.shapeForAssociatedTool,
+      let nextTool = delegate?.drawsanaViewAssociatedTool(for: shape)
+    {
+      set(tool: nextTool, shape: shape)
+    }
   }
 
   // MARK: Making stuff show up

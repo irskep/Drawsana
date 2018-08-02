@@ -52,24 +52,27 @@ class ViewController: UIViewController {
 
       drawingView.bottomAnchor.constraint(equalTo: toolButton.topAnchor),
     ])
-
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    drawingView.delegate = self
 
-    drawingView.tool = tools[toolIndex]
-  }
-
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+    drawingView.set(tool: tools[toolIndex])
   }
 
   @objc private func changeTool(_ sender: Any?) {
     toolIndex = (toolIndex + 1) % tools.count
-    drawingView.tool = tools[toolIndex]
+    drawingView.set(tool: tools[toolIndex])
     toolButton.setTitle(toolNames[toolIndex], for: .normal)
   }
 }
 
+extension ViewController: DrawsanaViewDelegate {
+  func drawsanaViewAssociatedTool(for shape: Shape) -> DrawingTool? {
+    if shape as? RectShape != nil {
+      return tools[5]
+    }
+    return nil
+  }
+}
