@@ -14,6 +14,9 @@
 		376229782113AB770034D0E3 /* EllipseShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229772113AB770034D0E3 /* EllipseShape.swift */; };
 		3762297A2113AB7F0034D0E3 /* PenShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229792113AB7F0034D0E3 /* PenShape.swift */; };
 		3762297D2113AC570034D0E3 /* CGPoint+DrawsanaExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762297C2113AC570034D0E3 /* CGPoint+DrawsanaExtensions.swift */; };
+		376229812113AD570034D0E3 /* ToolOperationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229802113AD570034D0E3 /* ToolOperationContext.swift */; };
+		376229832113AD6E0034D0E3 /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229822113AD6E0034D0E3 /* Drawing.swift */; };
+		376229872113ADD70034D0E3 /* GlobalToolState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229862113ADD70034D0E3 /* GlobalToolState.swift */; };
 		3777F2FD21068A5C009A9AC5 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777F2FC21068A5C009A9AC5 /* Shape.swift */; };
 		3777F2FF21068A78009A9AC5 /* DrawingTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777F2FE21068A78009A9AC5 /* DrawingTool.swift */; };
 		37885E2A210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37885E29210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift */; };
@@ -71,6 +74,9 @@
 		376229772113AB770034D0E3 /* EllipseShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipseShape.swift; sourceTree = "<group>"; };
 		376229792113AB7F0034D0E3 /* PenShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenShape.swift; sourceTree = "<group>"; };
 		3762297C2113AC570034D0E3 /* CGPoint+DrawsanaExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+DrawsanaExtensions.swift"; sourceTree = "<group>"; };
+		376229802113AD570034D0E3 /* ToolOperationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolOperationContext.swift; sourceTree = "<group>"; };
+		376229822113AD6E0034D0E3 /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
+		376229862113ADD70034D0E3 /* GlobalToolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalToolState.swift; sourceTree = "<group>"; };
 		3777F2FC21068A5C009A9AC5 /* Shape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		3777F2FE21068A78009A9AC5 /* DrawingTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTool.swift; sourceTree = "<group>"; };
 		37885E29210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipseTool_LineTool_RectTool.swift; sourceTree = "<group>"; };
@@ -168,6 +174,25 @@
 			path = _Support;
 			sourceTree = "<group>";
 		};
+		376229842113ADB30034D0E3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3762296D2113A9E60034D0E3 /* DrawsanaUtilities.swift */,
+				3762297C2113AC570034D0E3 /* CGPoint+DrawsanaExtensions.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		376229882113ADEA0034D0E3 /* Data model */ = {
+			isa = PBXGroup;
+			children = (
+				376229822113AD6E0034D0E3 /* Drawing.swift */,
+				376229862113ADD70034D0E3 /* GlobalToolState.swift */,
+				376229802113AD570034D0E3 /* ToolOperationContext.swift */,
+			);
+			path = "Data model";
+			sourceTree = "<group>";
+		};
 		37EB4ECF210649E100E10461 = {
 			isa = PBXGroup;
 			children = (
@@ -192,8 +217,8 @@
 			isa = PBXGroup;
 			children = (
 				37EB4EF3210649FC00E10461 /* DrawsanaView.swift */,
-				3762296D2113A9E60034D0E3 /* DrawsanaUtilities.swift */,
-				3762297C2113AC570034D0E3 /* CGPoint+DrawsanaExtensions.swift */,
+				376229882113ADEA0034D0E3 /* Data model */,
+				376229842113ADB30034D0E3 /* Helpers */,
 				3762296F2113AA4C0034D0E3 /* Shapes */,
 				3762297B2113ABF20034D0E3 /* Tools */,
 				3762297F2113ACE70034D0E3 /* _Support */,
@@ -366,9 +391,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				376229872113ADD70034D0E3 /* GlobalToolState.swift in Sources */,
 				3762297D2113AC570034D0E3 /* CGPoint+DrawsanaExtensions.swift in Sources */,
 				3762296E2113A9E60034D0E3 /* DrawsanaUtilities.swift in Sources */,
 				3762297A2113AB7F0034D0E3 /* PenShape.swift in Sources */,
+				376229812113AD570034D0E3 /* ToolOperationContext.swift in Sources */,
 				376229742113AAF50034D0E3 /* ShapeTransform.swift in Sources */,
 				37885E2A210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift in Sources */,
 				376229722113AAD30034D0E3 /* LineShape.swift in Sources */,
@@ -379,6 +406,7 @@
 				3777F2FF21068A78009A9AC5 /* DrawingTool.swift in Sources */,
 				3777F2FD21068A5C009A9AC5 /* Shape.swift in Sources */,
 				37885E2C210A9C95003A918F /* PenTool_EraserTool.swift in Sources */,
+				376229832113AD6E0034D0E3 /* Drawing.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,7 +593,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Drawsana/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Drawsana/_Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -592,7 +620,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Drawsana/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Drawsana/_Support/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
