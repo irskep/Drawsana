@@ -12,7 +12,7 @@
 		37885E2A210A9C69003A918F /* AMDrawingTool+TwoPointShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37885E29210A9C69003A918F /* AMDrawingTool+TwoPointShapes.swift */; };
 		37885E2C210A9C95003A918F /* AMDrawingTool+Freehand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37885E2B210A9C95003A918F /* AMDrawingTool+Freehand.swift */; };
 		37885E2E210A9CDA003A918F /* AMDrawingTool+Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37885E2D210A9CDA003A918F /* AMDrawingTool+Selection.swift */; };
-		37EB4EE3210649E100E10461 /* AMDrawingView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* AMDrawingView.framework */; };
+		37EB4EE3210649E100E10461 /* Drawsana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* Drawsana.framework */; };
 		37EB4EE8210649E100E10461 /* AMDrawingViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB4EE7210649E100E10461 /* AMDrawingViewTests.swift */; };
 		37EB4EEA210649E100E10461 /* AMDrawingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 37EB4EDC210649E100E10461 /* AMDrawingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		37EB4EF4210649FC00E10461 /* AMDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB4EF3210649FC00E10461 /* AMDrawingView.swift */; };
@@ -21,8 +21,8 @@
 		37EB4F0221064A5E00E10461 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37EB4F0021064A5E00E10461 /* Main.storyboard */; };
 		37EB4F0421064A6000E10461 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37EB4F0321064A6000E10461 /* Assets.xcassets */; };
 		37EB4F0721064A6000E10461 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37EB4F0521064A6000E10461 /* LaunchScreen.storyboard */; };
-		37EB4F1A21064A8100E10461 /* AMDrawingView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* AMDrawingView.framework */; };
-		37EB4F1B21064A8100E10461 /* AMDrawingView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* AMDrawingView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		37EB4F1A21064A8100E10461 /* Drawsana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* Drawsana.framework */; };
+		37EB4F1B21064A8100E10461 /* Drawsana.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37EB4ED9210649E100E10461 /* Drawsana.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +49,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				37EB4F1B21064A8100E10461 /* AMDrawingView.framework in Embed Frameworks */,
+				37EB4F1B21064A8100E10461 /* Drawsana.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,14 +62,14 @@
 		37885E29210A9C69003A918F /* AMDrawingTool+TwoPointShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AMDrawingTool+TwoPointShapes.swift"; sourceTree = "<group>"; };
 		37885E2B210A9C95003A918F /* AMDrawingTool+Freehand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AMDrawingTool+Freehand.swift"; sourceTree = "<group>"; };
 		37885E2D210A9CDA003A918F /* AMDrawingTool+Selection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AMDrawingTool+Selection.swift"; sourceTree = "<group>"; };
-		37EB4ED9210649E100E10461 /* AMDrawingView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AMDrawingView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		37EB4ED9210649E100E10461 /* Drawsana.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Drawsana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37EB4EDC210649E100E10461 /* AMDrawingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMDrawingView.h; sourceTree = "<group>"; };
 		37EB4EDD210649E100E10461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		37EB4EE2210649E100E10461 /* AMDrawingViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMDrawingViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		37EB4EE2210649E100E10461 /* DrawsanaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DrawsanaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37EB4EE7210649E100E10461 /* AMDrawingViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMDrawingViewTests.swift; sourceTree = "<group>"; };
 		37EB4EE9210649E100E10461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37EB4EF3210649FC00E10461 /* AMDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMDrawingView.swift; sourceTree = "<group>"; };
-		37EB4EFA21064A5E00E10461 /* AMDrawingView Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AMDrawingView Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		37EB4EFA21064A5E00E10461 /* Drawsana Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drawsana Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37EB4EFC21064A5E00E10461 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37EB4EFE21064A5E00E10461 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		37EB4F0121064A5E00E10461 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -90,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37EB4EE3210649E100E10461 /* AMDrawingView.framework in Frameworks */,
+				37EB4EE3210649E100E10461 /* Drawsana.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37EB4F1A21064A8100E10461 /* AMDrawingView.framework in Frameworks */,
+				37EB4F1A21064A8100E10461 /* Drawsana.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,9 +108,9 @@
 		37EB4ECF210649E100E10461 = {
 			isa = PBXGroup;
 			children = (
-				37EB4EFB21064A5E00E10461 /* AMDrawingView Demo */,
-				37EB4EDB210649E100E10461 /* AMDrawingView */,
-				37EB4EE6210649E100E10461 /* AMDrawingViewTests */,
+				37EB4EDB210649E100E10461 /* Drawsana */,
+				37EB4EFB21064A5E00E10461 /* Drawsana Demo */,
+				37EB4EE6210649E100E10461 /* Drawsana Tests */,
 				37EB4EDA210649E100E10461 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -118,14 +118,14 @@
 		37EB4EDA210649E100E10461 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				37EB4ED9210649E100E10461 /* AMDrawingView.framework */,
-				37EB4EE2210649E100E10461 /* AMDrawingViewTests.xctest */,
-				37EB4EFA21064A5E00E10461 /* AMDrawingView Demo.app */,
+				37EB4ED9210649E100E10461 /* Drawsana.framework */,
+				37EB4EE2210649E100E10461 /* DrawsanaTests.xctest */,
+				37EB4EFA21064A5E00E10461 /* Drawsana Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		37EB4EDB210649E100E10461 /* AMDrawingView */ = {
+		37EB4EDB210649E100E10461 /* Drawsana */ = {
 			isa = PBXGroup;
 			children = (
 				37EB4EDC210649E100E10461 /* AMDrawingView.h */,
@@ -137,19 +137,19 @@
 				37885E29210A9C69003A918F /* AMDrawingTool+TwoPointShapes.swift */,
 				3777F2FC21068A5C009A9AC5 /* AMShape.swift */,
 			);
-			path = AMDrawingView;
+			path = Drawsana;
 			sourceTree = "<group>";
 		};
-		37EB4EE6210649E100E10461 /* AMDrawingViewTests */ = {
+		37EB4EE6210649E100E10461 /* Drawsana Tests */ = {
 			isa = PBXGroup;
 			children = (
 				37EB4EE7210649E100E10461 /* AMDrawingViewTests.swift */,
 				37EB4EE9210649E100E10461 /* Info.plist */,
 			);
-			path = AMDrawingViewTests;
+			path = "Drawsana Tests";
 			sourceTree = "<group>";
 		};
-		37EB4EFB21064A5E00E10461 /* AMDrawingView Demo */ = {
+		37EB4EFB21064A5E00E10461 /* Drawsana Demo */ = {
 			isa = PBXGroup;
 			children = (
 				37EB4EFC21064A5E00E10461 /* AppDelegate.swift */,
@@ -159,7 +159,7 @@
 				37EB4F0521064A6000E10461 /* LaunchScreen.storyboard */,
 				37EB4F0821064A6000E10461 /* Info.plist */,
 			);
-			path = "AMDrawingView Demo";
+			path = "Drawsana Demo";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,9 +176,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		37EB4ED8210649E100E10461 /* AMDrawingView */ = {
+		37EB4ED8210649E100E10461 /* Drawsana */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 37EB4EED210649E100E10461 /* Build configuration list for PBXNativeTarget "AMDrawingView" */;
+			buildConfigurationList = 37EB4EED210649E100E10461 /* Build configuration list for PBXNativeTarget "Drawsana" */;
 			buildPhases = (
 				37EB4ED4210649E100E10461 /* Sources */,
 				37EB4ED5210649E100E10461 /* Frameworks */,
@@ -189,14 +189,14 @@
 			);
 			dependencies = (
 			);
-			name = AMDrawingView;
+			name = Drawsana;
 			productName = AMDrawingView;
-			productReference = 37EB4ED9210649E100E10461 /* AMDrawingView.framework */;
+			productReference = 37EB4ED9210649E100E10461 /* Drawsana.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		37EB4EE1210649E100E10461 /* AMDrawingViewTests */ = {
+		37EB4EE1210649E100E10461 /* DrawsanaTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 37EB4EF0210649E100E10461 /* Build configuration list for PBXNativeTarget "AMDrawingViewTests" */;
+			buildConfigurationList = 37EB4EF0210649E100E10461 /* Build configuration list for PBXNativeTarget "DrawsanaTests" */;
 			buildPhases = (
 				37EB4EDE210649E100E10461 /* Sources */,
 				37EB4EDF210649E100E10461 /* Frameworks */,
@@ -207,14 +207,14 @@
 			dependencies = (
 				37EB4EE5210649E100E10461 /* PBXTargetDependency */,
 			);
-			name = AMDrawingViewTests;
+			name = DrawsanaTests;
 			productName = AMDrawingViewTests;
-			productReference = 37EB4EE2210649E100E10461 /* AMDrawingViewTests.xctest */;
+			productReference = 37EB4EE2210649E100E10461 /* DrawsanaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		37EB4EF921064A5E00E10461 /* AMDrawingView Demo */ = {
+		37EB4EF921064A5E00E10461 /* Drawsana Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 37EB4F1421064A6000E10461 /* Build configuration list for PBXNativeTarget "AMDrawingView Demo" */;
+			buildConfigurationList = 37EB4F1421064A6000E10461 /* Build configuration list for PBXNativeTarget "Drawsana Demo" */;
 			buildPhases = (
 				37EB4EF621064A5E00E10461 /* Sources */,
 				37EB4EF721064A5E00E10461 /* Frameworks */,
@@ -226,9 +226,9 @@
 			dependencies = (
 				37EB4F1D21064A8100E10461 /* PBXTargetDependency */,
 			);
-			name = "AMDrawingView Demo";
+			name = "Drawsana Demo";
 			productName = "AMDrawingView Demo";
-			productReference = 37EB4EFA21064A5E00E10461 /* AMDrawingView Demo.app */;
+			productReference = 37EB4EFA21064A5E00E10461 /* Drawsana Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -253,7 +253,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 37EB4ED3210649E100E10461 /* Build configuration list for PBXProject "AMDrawingView" */;
+			buildConfigurationList = 37EB4ED3210649E100E10461 /* Build configuration list for PBXProject "Drawsana" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -266,9 +266,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				37EB4ED8210649E100E10461 /* AMDrawingView */,
-				37EB4EE1210649E100E10461 /* AMDrawingViewTests */,
-				37EB4EF921064A5E00E10461 /* AMDrawingView Demo */,
+				37EB4ED8210649E100E10461 /* Drawsana */,
+				37EB4EE1210649E100E10461 /* DrawsanaTests */,
+				37EB4EF921064A5E00E10461 /* Drawsana Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -336,12 +336,12 @@
 /* Begin PBXTargetDependency section */
 		37EB4EE5210649E100E10461 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 37EB4ED8210649E100E10461 /* AMDrawingView */;
+			target = 37EB4ED8210649E100E10461 /* Drawsana */;
 			targetProxy = 37EB4EE4210649E100E10461 /* PBXContainerItemProxy */;
 		};
 		37EB4F1D21064A8100E10461 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 37EB4ED8210649E100E10461 /* AMDrawingView */;
+			target = 37EB4ED8210649E100E10461 /* Drawsana */;
 			targetProxy = 37EB4F1C21064A8100E10461 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -497,7 +497,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = AMDrawingView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Drawsana/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -524,7 +524,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = AMDrawingView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Drawsana/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -584,7 +584,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A679L395M8;
-				INFOPLIST_FILE = "AMDrawingView Demo/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Drawsana Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -603,7 +603,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A679L395M8;
-				INFOPLIST_FILE = "AMDrawingView Demo/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Drawsana Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -618,7 +618,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		37EB4ED3210649E100E10461 /* Build configuration list for PBXProject "AMDrawingView" */ = {
+		37EB4ED3210649E100E10461 /* Build configuration list for PBXProject "Drawsana" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				37EB4EEB210649E100E10461 /* Debug */,
@@ -627,7 +627,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		37EB4EED210649E100E10461 /* Build configuration list for PBXNativeTarget "AMDrawingView" */ = {
+		37EB4EED210649E100E10461 /* Build configuration list for PBXNativeTarget "Drawsana" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				37EB4EEE210649E100E10461 /* Debug */,
@@ -636,7 +636,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		37EB4EF0210649E100E10461 /* Build configuration list for PBXNativeTarget "AMDrawingViewTests" */ = {
+		37EB4EF0210649E100E10461 /* Build configuration list for PBXNativeTarget "DrawsanaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				37EB4EF1210649E100E10461 /* Debug */,
@@ -645,7 +645,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		37EB4F1421064A6000E10461 /* Build configuration list for PBXNativeTarget "AMDrawingView Demo" */ = {
+		37EB4F1421064A6000E10461 /* Build configuration list for PBXNativeTarget "Drawsana Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				37EB4F1521064A6000E10461 /* Debug */,

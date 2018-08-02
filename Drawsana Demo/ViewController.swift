@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AMDrawingView
+import Drawsana
 
 class ViewController: UIViewController {
   lazy var drawingView: AMDrawingView = { return AMDrawingView() }()

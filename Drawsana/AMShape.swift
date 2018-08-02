@@ -6,6 +6,7 @@
 //  Copyright © 2018 Asana. All rights reserved.
 //
 
+import UIKit  // just for UIColor
 import CoreGraphics
 
 public struct AMShapeTransform {
