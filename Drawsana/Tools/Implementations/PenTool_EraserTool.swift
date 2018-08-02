@@ -8,7 +8,7 @@
 
 import CoreGraphics
 
-public class AMPenTool: AMDrawingTool, AMShapeInProgressRendering {
+public class PenTool: DrawingTool, ToolWithShapeInProgressRendering {
   public typealias ShapeType = AMPenShape
 
   public var shapeInProgress: AMPenShape?
@@ -42,7 +42,7 @@ public class AMPenTool: AMDrawingTool, AMShapeInProgressRendering {
     let segmentWidth: CGFloat
 
     if velocityBasedWidth {
-      segmentWidth = AMDrawingUtils.modulatedWidth(
+      segmentWidth = DrawsanaUtilities.modulatedWidth(
         width: shape.strokeWidth,
         velocity: velocity,
         previousVelocity: lastVelocity,
@@ -69,7 +69,7 @@ public class AMPenTool: AMDrawingTool, AMShapeInProgressRendering {
   }
 }
 
-public class AMEraserTool: AMPenTool {
+public class EraserTool: PenTool {
   public override init() {
     super.init()
     velocityBasedWidth = false
@@ -79,38 +79,4 @@ public class AMEraserTool: AMPenTool {
     super.handleDragStart(context: context, point: point)
     shapeInProgress?.isEraser = true
   }
-}
-
-class AMDrawingUtils {
-  class func modulatedWidth(width: CGFloat, velocity: CGPoint, previousVelocity: CGPoint, previousWidth: CGFloat) -> CGFloat {
-    let velocityAdjustement: CGFloat = 600.0
-    let speed = velocity.length / velocityAdjustement
-    let previousSpeed = previousVelocity.length / velocityAdjustement
-
-    let modulated = width / (0.6 * speed + 0.4 * previousSpeed)
-    let limited = clamp(value: modulated, min: 0.75 * previousWidth, max: 1.25 * previousWidth)
-    let final = clamp(value: limited, min: 0.2*width, max: width)
-
-    return final
-  }
-}
-
-
-extension CGPoint {
-  var length: CGFloat {
-    return sqrt((self.x*self.x) + (self.y*self.y))
-  }
-}
-
-
-func clamp<T: Comparable>(value: T, min: T, max: T) -> T {
-  if (value < min) {
-    return min
-  }
-
-  if (value > max) {
-    return max
-  }
-
-  return value
 }

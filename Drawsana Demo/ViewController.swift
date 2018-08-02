@@ -10,16 +10,16 @@ import UIKit
 import Drawsana
 
 class ViewController: UIViewController {
-  lazy var drawingView: AMDrawingView = { return AMDrawingView() }()
+  lazy var drawingView: DrawsanaView = { return DrawsanaView() }()
   let toolButton = UIButton(type: .custom)
 
-  let tools: [AMDrawingTool] = [
-    AMEllipseTool(),
-    AMSelectionTool(),
-    AMPenTool(),
-    AMEraserTool(),
-    AMLineTool(),
-    AMRectTool(),
+  let tools: [DrawingTool] = [
+    EllipseTool(),
+    SelectionTool(),
+    PenTool(),
+    EraserTool(),
+    LineTool(),
+    RectTool(),
   ]
   let toolNames: [String] = [
     "Ellipse",

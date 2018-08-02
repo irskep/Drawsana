@@ -9,8 +9,8 @@
 import CoreGraphics
 
 /// Convenience superclass: create and update shapeInProgress by dragging from point A to point B
-public class AMDrawingToolForShapeWithTwoPoints: AMDrawingTool {
-  public typealias ShapeType = AMShape & AMShapeWithTwoPoints & AMToolStateAppliable
+public class DrawingToolForShapeWithTwoPoints: DrawingTool {
+  public typealias ShapeType = Shape & ShapeWithTwoPoints & ToolStateAppliable
 
   public var shapeInProgress: ShapeType?
 
@@ -56,14 +56,14 @@ public class AMDrawingToolForShapeWithTwoPoints: AMDrawingTool {
   }
 }
 
-public class AMLineTool: AMDrawingToolForShapeWithTwoPoints {
+public class LineTool: DrawingToolForShapeWithTwoPoints {
   public override func makeShape() -> ShapeType { return AMLineShape() }
 }
 
-public class AMRectTool: AMDrawingToolForShapeWithTwoPoints {
+public class RectTool: DrawingToolForShapeWithTwoPoints {
   public override func makeShape() -> ShapeType { return AMRectShape() }
 }
 
-public class AMEllipseTool: AMDrawingToolForShapeWithTwoPoints {
+public class EllipseTool: DrawingToolForShapeWithTwoPoints {
   public override func makeShape() -> ShapeType { return AMEllipseShape() }
 }

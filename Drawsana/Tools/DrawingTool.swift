@@ -8,13 +8,13 @@
 
 import CoreGraphics
 
-public protocol AMToolStateAppliable {
-  func apply(state: AMGlobalToolState)
+public protocol ToolStateAppliable {
+  func apply(state: GlobalToolState)
 }
 
 // MARK: Main protocol
 
-public protocol AMDrawingTool: AMToolStateAppliable {
+public protocol DrawingTool: ToolStateAppliable {
   var isProgressive: Bool { get }
 
   func activate()
@@ -26,24 +26,24 @@ public protocol AMDrawingTool: AMToolStateAppliable {
   func handleDragEnd(context: ToolOperationContext, point: CGPoint)
   func handleDragCancel(context: ToolOperationContext, point: CGPoint)
 
-  func apply(state: AMGlobalToolState)
+  func apply(state: GlobalToolState)
 
   func renderShapeInProgress(transientContext: CGContext)
 }
-public extension AMDrawingTool {
+public extension DrawingTool {
   func activate() { }
   func deactivate() { }
-  func apply(state: AMGlobalToolState) { }
+  func apply(state: GlobalToolState) { }
   func renderShapeInProgress(transientContext: CGContext) { }
 }
 
 // MARK: Convenience protocol: automatically render shapeInProgress
 
-public protocol AMShapeInProgressRendering {
-  associatedtype ShapeType: AMShape
+public protocol ToolWithShapeInProgressRendering {
+  associatedtype ShapeType: Shape
   var shapeInProgress: ShapeType? { get }
 }
-extension AMShapeInProgressRendering {
+extension ToolWithShapeInProgressRendering {
   public func renderShapeInProgress(transientContext: CGContext) {
     shapeInProgress?.render(in: transientContext)
   }

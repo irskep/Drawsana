@@ -8,28 +8,16 @@
 
 import UIKit
 
-private func renderImage(size: CGSize, _ code: (CGContext) -> Void) -> UIImage? {
-  UIGraphicsBeginImageContextWithOptions(size, false, 0)
-  guard let context = UIGraphicsGetCurrentContext() else {
-    UIGraphicsEndImageContext()
-    return nil
-  }
-  code(context)
-  let image = UIGraphicsGetImageFromCurrentImageContext()
-  UIGraphicsEndImageContext()
-  return image
-}
-
-public class AMDrawingView: UIView {
-  public var tool: AMDrawingTool?
-  public var globalToolState: AMGlobalToolState {
+public class DrawsanaView: UIView {
+  public var tool: DrawingTool?
+  public var globalToolState: GlobalToolState {
     didSet {
       globalToolState.delegate = self
       tool?.apply(state: globalToolState)
       applySelectionViewState()
     }
   }
-  public lazy var drawing: AMDrawing = { return AMDrawing(size: bounds.size, delegate: self) }()
+  public lazy var drawing: Drawing = { return Drawing(size: bounds.size, delegate: self) }()
 
   private var persistentBuffer: UIImage?
   private var transientBuffer: UIImage?
@@ -39,7 +27,7 @@ public class AMDrawingView: UIView {
   public let selectionIndicatorView = UIView()
 
   public override init(frame: CGRect) {
-    globalToolState = AMGlobalToolState(
+    globalToolState = GlobalToolState(
       strokeColor: .blue, fillColor: nil, strokeWidth: 20, selectedShape: nil)
     super.init(frame: frame)
     backgroundColor = .red
@@ -48,7 +36,7 @@ public class AMDrawingView: UIView {
   }
 
   required public init?(coder aDecoder: NSCoder) {
-    globalToolState = AMGlobalToolState(
+    globalToolState = GlobalToolState(
       strokeColor: .blue, fillColor: nil, strokeWidth: 20, selectedShape: nil)
     super.init(coder: aDecoder)
     commonInit()
@@ -95,7 +83,7 @@ public class AMDrawingView: UIView {
 
   private func _didPan(sender: UIPanGestureRecognizer) {
     let updateUncommittedShapeBuffers: () -> Void = {
-      self.transientBufferWithShapeInProgress = renderImage(size: self.drawing.size) {
+      self.transientBufferWithShapeInProgress = DrawsanaUtilities.renderImage(size: self.drawing.size) {
         self.transientBuffer?.draw(at: .zero)
         self.tool?.renderShapeInProgress(transientContext: $0)
       }
@@ -166,7 +154,7 @@ public class AMDrawingView: UIView {
 
   private func redrawAbsolutelyEverything() {
     autoreleasepool {
-      self.persistentBuffer = renderImage(size: drawing.size) {
+      self.persistentBuffer = DrawsanaUtilities.renderImage(size: drawing.size) {
         for shape in self.drawing.shapes {
           shape.render(in: $0)
         }
@@ -176,9 +164,9 @@ public class AMDrawingView: UIView {
   }
 }
 
-extension AMDrawingView: AMDrawingDelegate {
-  public func drawingDidAddShape(_ shape: AMShape) {
-    persistentBuffer = renderImage(size: drawing.size) {
+extension DrawsanaView: DrawingDelegate {
+  public func drawingDidAddShape(_ shape: Shape) {
+    persistentBuffer = DrawsanaUtilities.renderImage(size: drawing.size) {
       self.persistentBuffer?.draw(at: .zero)
       shape.render(in: $0)
     }
@@ -186,10 +174,10 @@ extension AMDrawingView: AMDrawingDelegate {
   }
 }
 
-extension AMDrawingView: AMGlobalToolStateDelegate {
+extension DrawsanaView: GlobalToolStateDelegate {
   public func toolState(
-    _ toolState: AMGlobalToolState,
-    didSetSelectedShape selectedShape: AMSelectableShape?)
+    _ toolState: GlobalToolState,
+    didSetSelectedShape selectedShape: ShapeSelectable?)
   {
     tool?.apply(state: globalToolState)
     applySelectionViewState()
@@ -199,55 +187,55 @@ extension AMDrawingView: AMGlobalToolStateDelegate {
 // MARK: Models
 
 public class ToolOperationContext {
-  let drawing: AMDrawing
-  let toolState: AMGlobalToolState
+  let drawing: Drawing
+  let toolState: GlobalToolState
   var isPersistentBufferDirty = false
 
-  init(drawing: AMDrawing, toolState: AMGlobalToolState, isPersistentBufferDirty: Bool) {
+  init(drawing: Drawing, toolState: GlobalToolState, isPersistentBufferDirty: Bool) {
     self.drawing = drawing
     self.toolState = toolState
     self.isPersistentBufferDirty = isPersistentBufferDirty
   }
 }
 
-public class AMDrawing {
-  weak var delegate: AMDrawingDelegate?
+public class Drawing {
+  weak var delegate: DrawingDelegate?
 
   var size: CGSize
-  var shapes: [AMShape] = []
+  var shapes: [Shape] = []
 
-  init(size: CGSize, delegate: AMDrawingDelegate? = nil) {
+  init(size: CGSize, delegate: DrawingDelegate? = nil) {
     self.size = size
     self.delegate = delegate
   }
 
-  func add(shape: AMShape) {
+  func add(shape: Shape) {
     shapes.append(shape)
     delegate?.drawingDidAddShape(shape)
   }
 }
 
-public protocol AMDrawingDelegate: AnyObject {
-  func drawingDidAddShape(_ shape: AMShape)
+public protocol DrawingDelegate: AnyObject {
+  func drawingDidAddShape(_ shape: Shape)
 }
 
-public class AMGlobalToolState {
+public class GlobalToolState {
   public var strokeColor: UIColor?
   public var fillColor: UIColor?
   public var strokeWidth: CGFloat
-  public var selectedShape: AMSelectableShape? {
+  public var selectedShape: ShapeSelectable? {
     didSet {
       delegate?.toolState(self, didSetSelectedShape: selectedShape)
     }
   }
 
-  public weak var delegate: AMGlobalToolStateDelegate?
+  public weak var delegate: GlobalToolStateDelegate?
 
   init(
     strokeColor: UIColor?,
     fillColor: UIColor?,
     strokeWidth: CGFloat,
-    selectedShape: AMSelectableShape?)
+    selectedShape: ShapeSelectable?)
   {
     self.strokeColor = strokeColor
     self.fillColor = fillColor
@@ -256,8 +244,8 @@ public class AMGlobalToolState {
   }
 }
 
-public protocol AMGlobalToolStateDelegate: AnyObject {
+public protocol GlobalToolStateDelegate: AnyObject {
   func toolState(
-    _ toolState: AMGlobalToolState,
-    didSetSelectedShape selectedShape: AMSelectableShape?)
+    _ toolState: GlobalToolState,
+    didSetSelectedShape selectedShape: ShapeSelectable?)
 }

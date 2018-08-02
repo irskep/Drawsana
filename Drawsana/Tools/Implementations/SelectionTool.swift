@@ -8,10 +8,10 @@
 
 import UIKit
 
-public class AMSelectionTool: AMDrawingTool {
+public class SelectionTool: DrawingTool {
   public var isProgressive: Bool { return false }
 
-  var originalTransform: AMShapeTransform?
+  var originalTransform: ShapeTransform?
   var startPoint: CGPoint?
 
   public init() {
@@ -19,9 +19,9 @@ public class AMSelectionTool: AMDrawingTool {
   }
 
   public func handleTap(context: ToolOperationContext, point: CGPoint) {
-    var newSelection: AMSelectableShape?
+    var newSelection: ShapeSelectable?
     for shape in context.drawing.shapes {
-      if shape.hitTest(point: point), let castShape = shape as? AMSelectableShape {
+      if shape.hitTest(point: point), let castShape = shape as? ShapeSelectable {
         if castShape === context.toolState.selectedShape {
           // TODO: fire a notification? need to somehow allow the text tool to
           // take over if the shape is text.
