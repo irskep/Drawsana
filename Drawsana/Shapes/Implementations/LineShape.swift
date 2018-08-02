@@ -10,6 +10,9 @@ import CoreGraphics
 import UIKit
 
 public class LineShape: ShapeWithBoundingRect, ShapeWithTwoPoints, AMShapeWithStrokeState, ShapeSelectable {
+  public let type: String = "Line"
+
+  public var id: String = UUID().uuidString
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
   public var strokeColor: UIColor = .black

@@ -10,6 +10,7 @@ import UIKit
 
 public protocol DrawsanaViewDelegate: AnyObject {
   func drawsanaViewAssociatedTool(for shape: Shape) -> DrawingTool?
+  func drawsanaView(_ drawsanaView: DrawsanaView, didSwitchTo tool: DrawingTool?)
 }
 
 public class DrawsanaView: UIView {
@@ -91,6 +92,7 @@ public class DrawsanaView: UIView {
     DispatchQueue.main.async {
       // TODO: why does this break everything if run in the same run loop? Maybe because autoreleasepool?
       tool.activate(context: ToolOperationContext(drawing: self.drawing, toolState: self.globalToolState), shape: shape)
+      self.delegate?.drawsanaView(self, didSwitchTo: tool)
     }
     shapeToPassToActivatedTool = nil
   }

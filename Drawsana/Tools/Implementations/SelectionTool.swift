@@ -9,6 +9,8 @@
 import UIKit
 
 public class SelectionTool: DrawingTool {
+  public let name = "Selection"
+  
   public var isProgressive: Bool { return false }
 
   var originalTransform: ShapeTransform?

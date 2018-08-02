@@ -12,6 +12,8 @@ import CoreGraphics
 public class DrawingToolForShapeWithTwoPoints: DrawingTool {
   public typealias ShapeType = Shape & ShapeWithTwoPoints & ToolStateAppliable
 
+  public var name: String { fatalError("Override me") }
+
   public var shapeInProgress: ShapeType?
 
   func makeShape() -> ShapeType {
@@ -58,10 +60,12 @@ public class DrawingToolForShapeWithTwoPoints: DrawingTool {
 
 public class LineTool: DrawingToolForShapeWithTwoPoints {
   public override func makeShape() -> ShapeType { return LineShape() }
+  public override var name: String { return "Line" }
 }
 
 public class RectTool: DrawingToolForShapeWithTwoPoints {
   public override func makeShape() -> ShapeType { return RectShape() }
+  public override var name: String { return "Rectangle" }
 
   public func activate(context: ToolOperationContext, shape: Shape?) {
     context.toolState.selectedShape = nil
@@ -70,4 +74,5 @@ public class RectTool: DrawingToolForShapeWithTwoPoints {
 
 public class EllipseTool: DrawingToolForShapeWithTwoPoints {
   public override func makeShape() -> ShapeType { return EllipseShape() }
+  public override var name: String { return "Ellipse" }
 }

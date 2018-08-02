@@ -10,6 +10,8 @@ import CoreGraphics
 import UIKit
 
 public protocol Shape: AnyObject {
+  var id: String { get }
+  var type: String { get }
   func render(in context: CGContext)
   func hitTest(point: CGPoint) -> Bool
 }

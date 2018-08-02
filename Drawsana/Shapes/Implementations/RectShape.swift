@@ -10,6 +10,9 @@ import CoreGraphics
 import UIKit
 
 public class RectShape: ShapeWithBoundingRect, ShapeWithTwoPoints, AMShapeWithStandardState, ShapeSelectable {
+  public let type: String = "Rectangle"
+
+  public var id: String = UUID().uuidString
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
   public var strokeColor: UIColor? = .black

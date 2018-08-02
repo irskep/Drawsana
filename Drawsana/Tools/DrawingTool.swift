@@ -16,6 +16,7 @@ public protocol ToolStateAppliable {
 
 public protocol DrawingTool: ToolStateAppliable {
   var isProgressive: Bool { get }
+  var name: String { get }
 
   func activate(context: ToolOperationContext, shape: Shape?)
   func deactivate(context: ToolOperationContext)

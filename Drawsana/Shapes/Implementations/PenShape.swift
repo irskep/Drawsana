@@ -20,6 +20,9 @@ public struct PenLineSegment {
 }
 
 public class PenShape: Shape, AMShapeWithStrokeState {
+  public let type: String = "Pen"
+
+  public var id: String = UUID().uuidString
   public var isFinished = true
   public var strokeColor: UIColor = .black
   public var start: CGPoint = .zero

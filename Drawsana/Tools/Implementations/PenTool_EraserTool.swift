@@ -11,6 +11,8 @@ import CoreGraphics
 public class PenTool: DrawingTool, ToolWithShapeInProgressRendering {
   public typealias ShapeType = PenShape
 
+  public var name: String { return "Pen" }
+
   public var shapeInProgress: PenShape?
 
   public var isProgressive: Bool { return true }
@@ -70,7 +72,9 @@ public class PenTool: DrawingTool, ToolWithShapeInProgressRendering {
 }
 
 public class EraserTool: PenTool {
+  public override var name: String { return "Eraser" }
   public override init() {
+
     super.init()
     velocityBasedWidth = false
   }

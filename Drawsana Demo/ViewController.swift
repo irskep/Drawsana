@@ -21,21 +21,13 @@ class ViewController: UIViewController {
     LineTool(),
     RectTool(),
   ]
-  let toolNames: [String] = [
-    "Ellipse",
-    "Select",
-    "Pen",
-    "Eraser",
-    "Line",
-    "Rect",
-  ]
   var toolIndex = 0
 
   override func loadView() {
     self.view = UIView()
 
     toolButton.translatesAutoresizingMaskIntoConstraints = false
-    toolButton.setTitle(toolNames[0], for: .normal)
+    toolButton.setTitle("No Tool", for: .normal)
     toolButton.addTarget(self, action: #selector(changeTool(_:)), for: .touchUpInside)
     toolButton.setContentHuggingPriority(.required, for: .vertical)
     view.addSubview(toolButton)
@@ -64,7 +56,7 @@ class ViewController: UIViewController {
   @objc private func changeTool(_ sender: Any?) {
     toolIndex = (toolIndex + 1) % tools.count
     drawingView.set(tool: tools[toolIndex])
-    toolButton.setTitle(toolNames[toolIndex], for: .normal)
+    toolButton.setTitle(tools[toolIndex].name, for: .normal)
   }
 }
 
@@ -74,5 +66,9 @@ extension ViewController: DrawsanaViewDelegate {
       return tools[5]
     }
     return nil
+  }
+
+  func drawsanaView(_ drawsanaView: DrawsanaView, didSwitchTo tool: DrawingTool?) {
+    toolButton.setTitle(tool?.name, for: .normal)
   }
 }
