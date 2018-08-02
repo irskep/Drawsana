@@ -14,6 +14,8 @@ public protocol DrawsanaViewDelegate: AnyObject {
 }
 
 public class DrawsanaView: UIView {
+  // MARK: Public API
+
   public weak var delegate: DrawsanaViewDelegate?
   public private(set) var tool: DrawingTool?
   public var globalToolState: GlobalToolState {
@@ -25,14 +27,44 @@ public class DrawsanaView: UIView {
   }
   public lazy var drawing: Drawing = { return Drawing(size: bounds.size, delegate: self) }()
 
-  private var shapeToPassToActivatedTool: Shape?
+  // MARK: Buffers
 
+  /**
+   All "finished" shapes are rendered together to this buffer. If no tool
+   operation is active, this is the image that is displayed.
+   */
   private var persistentBuffer: UIImage?
+
+  /**
+   When a tool operation begins, `persistentBuffer` is copied to this buffer.
+   It represents the state of the drawing as the tool operation does its work.
+
+   If the active tool is "progressive," then
+   `transientBufferWithShapeInProgress` is copied back to this buffer after each
+   display frame. Otherwise, it is not. The result is that simple brushes just
+   have to draw the newest fragment of a shape, and other tools like ellipse
+   or rect can redraw the whole shape without leaving a trail behind them.
+   */
   private var transientBuffer: UIImage?
+
+  /**
+   During tool operations, this bufffer contains a rendering of the shape in
+   progress, over top of the latest contents of `transientBuffer`.
+
+   If the active tool is "progressive," this buffer is always copied back onto
+   `transientBuffer` every display frame.
+
+   If a tool operation is active, this is the image that is displayed.
+   */
   private var transientBufferWithShapeInProgress: UIImage?
+
+  // MARK: Views
+
   private let drawingContentView = UIView()
 
   public let selectionIndicatorView = UIView()
+
+  // MARK: Init
 
   public override init(frame: CGRect) {
     globalToolState = GlobalToolState(
@@ -94,7 +126,6 @@ public class DrawsanaView: UIView {
       tool.activate(context: ToolOperationContext(drawing: self.drawing, toolState: self.globalToolState), shape: shape)
       self.delegate?.drawsanaView(self, didSwitchTo: tool)
     }
-    shapeToPassToActivatedTool = nil
   }
 
   // MARK: Gesture recognizers
