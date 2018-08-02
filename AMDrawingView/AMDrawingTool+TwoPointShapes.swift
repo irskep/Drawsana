@@ -22,28 +22,32 @@ public class AMDrawingToolForShapeWithTwoPoints: AMDrawingTool {
 
   public init() { }
 
-  public func drawPoint(_ point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
+  public func handleTap(context: ToolOperationContext, point: CGPoint) {
     var shape = makeShape()
     shape.a = point
     shape.b = point
-    shape.apply(state: state)
-    drawing.add(shape: shape)
+    shape.apply(state: context.toolState)
+    context.drawing.add(shape: shape)
   }
 
-  public func drawStart(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
+  public func handleDragStart(context: ToolOperationContext, point: CGPoint) {
     shapeInProgress = makeShape()
     shapeInProgress?.a = point
     shapeInProgress?.b = point
-    shapeInProgress?.apply(state: state)
+    shapeInProgress?.apply(state: context.toolState)
   }
 
-  public func drawContinue(point: CGPoint, velocity: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
+  public func handleDragContinue(context: ToolOperationContext, point: CGPoint, velocity: CGPoint) {
     shapeInProgress?.b = point
   }
 
-  public func drawEnd(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
+  public func handleDragEnd(context: ToolOperationContext, point: CGPoint) {
     shapeInProgress?.b = point
-    drawing.add(shape: shapeInProgress!)
+    context.drawing.add(shape: shapeInProgress!)
+    shapeInProgress = nil
+  }
+
+  public func handleDragCancel(context: ToolOperationContext, point: CGPoint) {
     shapeInProgress = nil
   }
 

@@ -60,7 +60,9 @@ public class AMDrawingView: UIView {
     layer.actions = [
       "contents": NSNull(),
     ]
-
+    selectionIndicatorView.layer.actions = [
+      "transform": NSNull(),
+    ]
 
     addSubview(drawingContentView)
     addSubview(selectionIndicatorView)
@@ -108,6 +110,7 @@ public class AMDrawingView: UIView {
     }
 
     let point = sender.location(in: self)
+    let context = ToolOperationContext(drawing: drawing, toolState: globalToolState, isPersistentBufferDirty: false)
     switch sender.state {
     case .began:
       if let persistentBuffer = persistentBuffer, let cgImage = persistentBuffer.cgImage {
@@ -118,24 +121,30 @@ public class AMDrawingView: UIView {
       } else {
         transientBuffer = nil
       }
-      tool?.drawStart(point: point, drawing: drawing, state: globalToolState)
+      tool?.handleDragStart(context: context, point: point)
       updateUncommittedShapeBuffers()
     case .changed:
-      tool?.drawContinue(point: point, velocity: sender.velocity(in: self), drawing: drawing, state: globalToolState)
+      tool?.handleDragContinue(context: context, point: point, velocity: sender.velocity(in: self))
       updateUncommittedShapeBuffers()
     case .ended:
-      tool?.drawEnd(point: point, drawing: drawing, state: globalToolState)
+      tool?.handleDragEnd(context: context, point: point)
       clearUncommittedShapeBuffers()
     case .failed:
-      tool?.drawEnd(point: point, drawing: drawing, state: globalToolState)
+      tool?.handleDragCancel(context: context, point: point)
       clearUncommittedShapeBuffers()
     default:
       assert(false, "State not handled")
     }
+
+    if context.isPersistentBufferDirty {
+      redrawAbsolutelyEverything()
+      applySelectionViewState()
+    }
   }
 
   @objc private func didTap(sender: UITapGestureRecognizer) {
-    tool?.drawPoint(sender.location(in: self), drawing: drawing, state: globalToolState)
+    let context = ToolOperationContext(drawing: drawing, toolState: globalToolState, isPersistentBufferDirty: false)
+    tool?.handleTap(context: context, point: sender.location(in: self))
   }
 
   // MARK: Making stuff show up
@@ -151,19 +160,20 @@ public class AMDrawingView: UIView {
     }
     // TODO: allow inset config
     selectionIndicatorView.frame = shape.boundingRect.insetBy(dx: -4, dy: -4)
+    selectionIndicatorView.transform = selectionIndicatorView.transform.concatenating(shape.transform.affineTransform)
     selectionIndicatorView.isHidden = false
   }
 
-//  private func recreatePersistentBuffer() {
-//    autoreleasepool {
-//      self.persistentBuffer = renderer.image(actions: {
-//        for shape in self.drawing.shapes {
-//          shape.render(in: $0.cgContext)
-//        }
-//      })
-//    }
-//    reapplyLayerContents()
-//  }
+  private func redrawAbsolutelyEverything() {
+    autoreleasepool {
+      self.persistentBuffer = renderImage(size: drawing.size) {
+        for shape in self.drawing.shapes {
+          shape.render(in: $0)
+        }
+      }
+    }
+    reapplyLayerContents()
+  }
 }
 
 extension AMDrawingView: AMDrawingDelegate {
@@ -187,6 +197,18 @@ extension AMDrawingView: AMGlobalToolStateDelegate {
 }
 
 // MARK: Models
+
+public class ToolOperationContext {
+  let drawing: AMDrawing
+  let toolState: AMGlobalToolState
+  var isPersistentBufferDirty = false
+
+  init(drawing: AMDrawing, toolState: AMGlobalToolState, isPersistentBufferDirty: Bool) {
+    self.drawing = drawing
+    self.toolState = toolState
+    self.isPersistentBufferDirty = isPersistentBufferDirty
+  }
+}
 
 public class AMDrawing {
   weak var delegate: AMDrawingDelegate?

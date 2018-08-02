@@ -21,22 +21,22 @@ public class AMPenTool: AMDrawingTool, AMShapeInProgressRendering {
 
   public init() { }
 
-  public func drawPoint(_ point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
+  public func handleTap(context: ToolOperationContext, point: CGPoint) {
     let shape = AMPenShape()
     shape.start = point
     shape.isFinished = false
-    shape.apply(state: state)
-    drawing.add(shape: shape)
+    shape.apply(state: context.toolState)
+    context.drawing.add(shape: shape)
   }
 
-  public func drawStart(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
+  public func handleDragStart(context: ToolOperationContext, point: CGPoint) {
     lastVelocity = .zero
     shapeInProgress = AMPenShape()
     shapeInProgress?.start = point
-    shapeInProgress?.apply(state: state)
+    shapeInProgress?.apply(state: context.toolState)
   }
 
-  public func drawContinue(point: CGPoint, velocity: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
+  public func handleDragContinue(context: ToolOperationContext, point: CGPoint, velocity: CGPoint) {
     guard let shape = shapeInProgress else { return }
     let lastPoint = shape.segments.last?.b ?? shape.start
     let segmentWidth: CGFloat
@@ -54,9 +54,13 @@ public class AMPenTool: AMDrawingTool, AMShapeInProgressRendering {
     lastVelocity = velocity
   }
 
-  public func drawEnd(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
+  public func handleDragEnd(context: ToolOperationContext, point: CGPoint) {
     shapeInProgress?.isFinished = true
-    drawing.add(shape: shapeInProgress!)
+    context.drawing.add(shape: shapeInProgress!)
+    shapeInProgress = nil
+  }
+
+  public func handleDragCancel(context: ToolOperationContext, point: CGPoint) {
     shapeInProgress = nil
   }
 
@@ -71,8 +75,8 @@ public class AMEraserTool: AMPenTool {
     velocityBasedWidth = false
   }
 
-  public override func drawStart(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState) {
-    super.drawStart(point: point, drawing: drawing, state: state)
+  public override func handleDragStart(context: ToolOperationContext, point: CGPoint) {
+    super.handleDragStart(context: context, point: point)
     shapeInProgress?.isEraser = true
   }
 }

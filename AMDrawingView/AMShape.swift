@@ -12,6 +12,29 @@ public struct AMShapeTransform {
   var translation: CGPoint
   var rotation: CGFloat
   var scale: CGFloat
+
+  static let identity = AMShapeTransform(translation: .zero, rotation: 0, scale: 1)
+}
+
+extension AMShapeTransform {
+  public var affineTransform: CGAffineTransform {
+    return CGAffineTransform(translationX: translation.x, y: translation.y).rotated(by: rotation).scaledBy(x: scale, y: scale)
+  }
+  public func begin(context: CGContext) {
+    context.saveGState()
+    context.concatenate(affineTransform)
+  }
+
+  public func end(context: CGContext) {
+    context.restoreGState()
+  }
+
+  public func translated(by delta: CGPoint) -> AMShapeTransform {
+    return AMShapeTransform(
+      translation: CGPoint(x: translation.x + delta.x, y: translation.y + delta.y),
+      rotation: rotation,
+      scale: scale)
+  }
 }
 
 // MARK: Protocol: AMShape
@@ -33,10 +56,20 @@ extension AMShapeWithBoundingRect {
   }
 }
 
+// MARK: Protocol: AMTransformableShape
+
+public protocol AMTransformableShape: AMShape {
+  var transform: AMShapeTransform { get set }
+}
+
 // MARK: Protocol: AMSelectableShape
 
-public protocol AMSelectableShape: AMShapeWithBoundingRect {
-  var transform: AMShapeTransform? { get set }
+public protocol AMSelectableShape: AMShapeWithBoundingRect, AMTransformableShape {
+}
+extension AMSelectableShape {
+  public func hitTest(point: CGPoint) -> Bool {
+    return boundingRect.applying(transform.affineTransform).contains(point)
+  }
 }
 
 // MARK: Protocol: AMShapeWithTwoPoints
@@ -103,13 +136,14 @@ public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShape
   public var joinStyle: CGLineJoin = .round
   public var dashPhase: CGFloat?
   public var dashLengths: [CGFloat]?
-  public var transform: AMShapeTransform?
+  public var transform: AMShapeTransform = .identity
 
   public init() {
 
   }
 
   public func render(in context: CGContext) {
+    transform.begin(context: context)
     context.setLineCap(capStyle)
     context.setLineJoin(joinStyle)
     context.setLineWidth(strokeWidth)
@@ -122,6 +156,7 @@ public class AMLineShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShape
     context.move(to: a)
     context.addLine(to: b)
     context.strokePath()
+    transform.end(context: context)
   }
 }
 
@@ -135,13 +170,14 @@ public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShape
   public var joinStyle: CGLineJoin = .round
   public var dashPhase: CGFloat?
   public var dashLengths: [CGFloat]?
-  public var transform: AMShapeTransform?
+  public var transform: AMShapeTransform = .identity
 
   public init() {
 
   }
 
   public func render(in context: CGContext) {
+    transform.begin(context: context)
     context.setLineCap(capStyle)
     context.setLineJoin(joinStyle)
     context.setLineWidth(strokeWidth)
@@ -161,6 +197,7 @@ public class AMRectShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMShape
       context.addRect(rect)
       context.fillPath()
     }
+    transform.end(context: context)
   }
 }
 
@@ -174,13 +211,14 @@ public class AMEllipseShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMSh
   public var joinStyle: CGLineJoin = .round
   public var dashPhase: CGFloat?
   public var dashLengths: [CGFloat]?
-  public var transform: AMShapeTransform?
+  public var transform: AMShapeTransform = .identity
 
   public init() {
 
   }
 
   public func render(in context: CGContext) {
+    transform.begin(context: context)
     context.setLineCap(capStyle)
     context.setLineJoin(joinStyle)
     context.setLineWidth(strokeWidth)
@@ -202,6 +240,7 @@ public class AMEllipseShape: AMShapeWithBoundingRect, AMShapeWithTwoPoints, AMSh
       context.addEllipse(in: rect)
       context.fillPath()
     }
+    transform.end(context: context)
   }
 }
 
@@ -233,6 +272,11 @@ public class AMPenShape: AMShape, AMShapeWithStrokeState {
   }
 
   private func render(in context: CGContext, onlyLast: Bool = false) {
+    context.saveGState()
+    if isEraser {
+      context.setBlendMode(.clear)
+    }
+
     guard !segments.isEmpty else {
       if !isFinished {
         // Draw a dot
@@ -242,15 +286,13 @@ public class AMPenShape: AMShape, AMShapeWithStrokeState {
       } else {
         // draw nothing; user will keep drawing
       }
+      context.restoreGState()
       return
     }
 
     context.setLineCap(.round)
     context.setLineJoin(.round)
     context.setStrokeColor(strokeColor.cgColor)
-    if isEraser {
-      context.setBlendMode(.clear)
-    }
 
     var lastSegment: AMLineSegment?
     if onlyLast, segments.count > 1 {
@@ -270,6 +312,7 @@ public class AMPenShape: AMShape, AMShapeWithStrokeState {
       }
       lastSegment = segment
     }
+    context.restoreGState()
   }
 
   public func render(in context: CGContext) {

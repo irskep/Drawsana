@@ -20,10 +20,11 @@ public protocol AMDrawingTool: AMToolStateAppliable {
   func activate()
   func deactivate()
 
-  func drawPoint(_ point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState)
-  func drawStart(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState)
-  func drawContinue(point: CGPoint, velocity: CGPoint, drawing: AMDrawing, state: AMGlobalToolState)
-  func drawEnd(point: CGPoint, drawing: AMDrawing, state: AMGlobalToolState)
+  func handleTap(context: ToolOperationContext, point: CGPoint)
+  func handleDragStart(context: ToolOperationContext, point: CGPoint)
+  func handleDragContinue(context: ToolOperationContext, point: CGPoint, velocity: CGPoint)
+  func handleDragEnd(context: ToolOperationContext, point: CGPoint)
+  func handleDragCancel(context: ToolOperationContext, point: CGPoint)
 
   func apply(state: AMGlobalToolState)
 
