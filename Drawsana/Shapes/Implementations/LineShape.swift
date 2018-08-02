@@ -9,7 +9,7 @@
 import CoreGraphics
 import UIKit
 
-public class AMLineShape: ShapeWithBoundingRect, ShapeWithTwoPoints, AMShapeWithStrokeState, ShapeSelectable {
+public class LineShape: ShapeWithBoundingRect, ShapeWithTwoPoints, AMShapeWithStrokeState, ShapeSelectable {
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
   public var strokeColor: UIColor = .black

@@ -77,6 +77,7 @@
 		376229802113AD570034D0E3 /* ToolOperationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolOperationContext.swift; sourceTree = "<group>"; };
 		376229822113AD6E0034D0E3 /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
 		376229862113ADD70034D0E3 /* GlobalToolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalToolState.swift; sourceTree = "<group>"; };
+		376229892113AE0C0034D0E3 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		3777F2FC21068A5C009A9AC5 /* Shape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		3777F2FE21068A78009A9AC5 /* DrawingTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTool.swift; sourceTree = "<group>"; };
 		37885E29210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipseTool_LineTool_RectTool.swift; sourceTree = "<group>"; };
@@ -196,6 +197,7 @@
 		37EB4ECF210649E100E10461 = {
 			isa = PBXGroup;
 			children = (
+				376229892113AE0C0034D0E3 /* Readme.md */,
 				37EB4EDB210649E100E10461 /* Drawsana */,
 				37EB4EFB21064A5E00E10461 /* Drawsana Demo */,
 				37EB4EE6210649E100E10461 /* Drawsana Tests */,

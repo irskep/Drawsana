@@ -17,8 +17,8 @@ public protocol ToolStateAppliable {
 public protocol DrawingTool: ToolStateAppliable {
   var isProgressive: Bool { get }
 
-  func activate()
-  func deactivate()
+  func activate(context: ToolOperationContext, shape: Shape?)
+  func deactivate(context: ToolOperationContext)
 
   func handleTap(context: ToolOperationContext, point: CGPoint)
   func handleDragStart(context: ToolOperationContext, point: CGPoint)
@@ -31,8 +31,8 @@ public protocol DrawingTool: ToolStateAppliable {
   func renderShapeInProgress(transientContext: CGContext)
 }
 public extension DrawingTool {
-  func activate() { }
-  func deactivate() { }
+  func activate(context: ToolOperationContext, shape: Shape?) { }
+  func deactivate(context: ToolOperationContext) { }
   func apply(state: GlobalToolState) { }
   func renderShapeInProgress(transientContext: CGContext) { }
 }

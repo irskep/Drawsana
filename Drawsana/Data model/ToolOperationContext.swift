@@ -11,11 +11,18 @@ import CoreGraphics
 public class ToolOperationContext {
   let drawing: Drawing
   let toolState: GlobalToolState
-  var isPersistentBufferDirty = false
+  var isPersistentBufferDirty: Bool
+  var shapeForAssociatedTool: Shape?
 
-  init(drawing: Drawing, toolState: GlobalToolState, isPersistentBufferDirty: Bool) {
+  init(
+    drawing: Drawing,
+    toolState: GlobalToolState,
+    isPersistentBufferDirty: Bool = false,
+    shapeForAssociatedTool: Shape? = nil)
+  {
     self.drawing = drawing
     self.toolState = toolState
     self.isPersistentBufferDirty = isPersistentBufferDirty
+    self.shapeForAssociatedTool = shapeForAssociatedTool
   }
 }

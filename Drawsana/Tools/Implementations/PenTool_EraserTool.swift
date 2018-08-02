@@ -9,9 +9,9 @@
 import CoreGraphics
 
 public class PenTool: DrawingTool, ToolWithShapeInProgressRendering {
-  public typealias ShapeType = AMPenShape
+  public typealias ShapeType = PenShape
 
-  public var shapeInProgress: AMPenShape?
+  public var shapeInProgress: PenShape?
 
   public var isProgressive: Bool { return true }
 
@@ -22,7 +22,7 @@ public class PenTool: DrawingTool, ToolWithShapeInProgressRendering {
   public init() { }
 
   public func handleTap(context: ToolOperationContext, point: CGPoint) {
-    let shape = AMPenShape()
+    let shape = PenShape()
     shape.start = point
     shape.isFinished = false
     shape.apply(state: context.toolState)
@@ -31,7 +31,7 @@ public class PenTool: DrawingTool, ToolWithShapeInProgressRendering {
 
   public func handleDragStart(context: ToolOperationContext, point: CGPoint) {
     lastVelocity = .zero
-    shapeInProgress = AMPenShape()
+    shapeInProgress = PenShape()
     shapeInProgress?.start = point
     shapeInProgress?.apply(state: context.toolState)
   }
@@ -50,7 +50,7 @@ public class PenTool: DrawingTool, ToolWithShapeInProgressRendering {
     } else {
       segmentWidth = shape.strokeWidth
     }
-    shape.add(segment: AMLineSegment(a: lastPoint, b: point, width: segmentWidth))
+    shape.add(segment: PenLineSegment(a: lastPoint, b: point, width: segmentWidth))
     lastVelocity = velocity
   }
 

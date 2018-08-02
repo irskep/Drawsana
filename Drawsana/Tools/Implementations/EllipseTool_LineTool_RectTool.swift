@@ -57,13 +57,13 @@ public class DrawingToolForShapeWithTwoPoints: DrawingTool {
 }
 
 public class LineTool: DrawingToolForShapeWithTwoPoints {
-  public override func makeShape() -> ShapeType { return AMLineShape() }
+  public override func makeShape() -> ShapeType { return LineShape() }
 }
 
 public class RectTool: DrawingToolForShapeWithTwoPoints {
-  public override func makeShape() -> ShapeType { return AMRectShape() }
+  public override func makeShape() -> ShapeType { return RectShape() }
 }
 
 public class EllipseTool: DrawingToolForShapeWithTwoPoints {
-  public override func makeShape() -> ShapeType { return AMEllipseShape() }
+  public override func makeShape() -> ShapeType { return EllipseShape() }
 }

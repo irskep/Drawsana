@@ -9,7 +9,7 @@
 import CoreGraphics
 import UIKit
 
-public struct AMLineSegment {
+public struct PenLineSegment {
   var a: CGPoint
   var b: CGPoint
   var width: CGFloat
@@ -19,12 +19,12 @@ public struct AMLineSegment {
   }
 }
 
-public class AMPenShape: Shape, AMShapeWithStrokeState {
+public class PenShape: Shape, AMShapeWithStrokeState {
   public var isFinished = true
   public var strokeColor: UIColor = .black
   public var start: CGPoint = .zero
   public var strokeWidth: CGFloat = 10
-  public var segments: [AMLineSegment] = []
+  public var segments: [PenLineSegment] = []
   public var isEraser: Bool = false
 
   public var isSelectable: Bool { return false }
@@ -32,7 +32,7 @@ public class AMPenShape: Shape, AMShapeWithStrokeState {
     return false
   }
 
-  public func add(segment: AMLineSegment) {
+  public func add(segment: PenLineSegment) {
     segments.append(segment)
   }
 
@@ -59,7 +59,7 @@ public class AMPenShape: Shape, AMShapeWithStrokeState {
     context.setLineJoin(.round)
     context.setStrokeColor(strokeColor.cgColor)
 
-    var lastSegment: AMLineSegment?
+    var lastSegment: PenLineSegment?
     if onlyLast, segments.count > 1 {
       lastSegment = segments[segments.count - 2]
     }
