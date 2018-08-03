@@ -13,15 +13,18 @@ class ViewController: UIViewController {
   lazy var drawingView: DrawsanaView = { return DrawsanaView() }()
   let toolButton = UIButton(type: .custom)
 
-  let tools: [DrawingTool] = [
-    TextTool(),
-    SelectionTool(),
+  lazy var textTool = { return TextTool(delegate: self) }()
+  lazy var selectionTool = { return SelectionTool(delegate: self) }()
+
+  lazy var tools: [DrawingTool] = { return [
+    textTool,
+    selectionTool,
     EllipseTool(),
     PenTool(),
     EraserTool(),
     LineTool(),
     RectTool(),
-  ]
+  ] }()
   var toolIndex = 0
 
   override func loadView() {
@@ -62,14 +65,25 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: DrawsanaViewDelegate {
-  func drawsanaViewAssociatedTool(for shape: Shape) -> DrawingTool? {
-    if shape as? RectShape != nil {
-      return tools[5]
-    }
-    return nil
-  }
-
   func drawsanaView(_ drawsanaView: DrawsanaView, didSwitchTo tool: DrawingTool?) {
     toolButton.setTitle(tool?.name, for: .normal)
+  }
+}
+
+extension ViewController: SelectionToolDelegate {
+  func selectionToolDidTapOnAlreadySelectedShape(_ shape: ShapeSelectable) {
+    if shape as? TextShape != nil {
+      drawingView.set(tool: textTool, shape: shape)
+    }
+  }
+}
+
+extension ViewController: TextToolDelegate {
+  func textToolPointForNewText(tappedPoint: CGPoint) -> CGPoint {
+    return tappedPoint
+  }
+
+  func textToolDidTapAway(tappedPoint: CGPoint) {
+    drawingView.set(tool: selectionTool)
   }
 }

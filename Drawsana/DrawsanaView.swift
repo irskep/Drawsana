@@ -9,7 +9,6 @@
 import UIKit
 
 public protocol DrawsanaViewDelegate: AnyObject {
-  func drawsanaViewAssociatedTool(for shape: Shape) -> DrawingTool?
   func drawsanaView(_ drawsanaView: DrawsanaView, didSwitchTo tool: DrawingTool?)
 }
 
@@ -215,12 +214,6 @@ public class DrawsanaView: UIView {
     let context = makeToolOperationContext()
     tool?.handleTap(context: context, point: sender.location(in: self))
     interactiveView = context.interactiveView
-    if
-      let shape = context.shapeForAssociatedTool,
-      let nextTool = delegate?.drawsanaViewAssociatedTool(for: shape)
-    {
-      set(tool: nextTool, shape: shape)
-    }
   }
 
   // MARK: Making stuff show up

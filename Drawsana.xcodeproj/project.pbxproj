@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37362D5C21151684003E5ACA /* TextShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37362D5B21151684003E5ACA /* TextShape.swift */; };
 		3762296E2113A9E60034D0E3 /* DrawsanaUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762296D2113A9E60034D0E3 /* DrawsanaUtilities.swift */; };
 		376229722113AAD30034D0E3 /* LineShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229712113AAD30034D0E3 /* LineShape.swift */; };
 		376229742113AAF50034D0E3 /* ShapeTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229732113AAF50034D0E3 /* ShapeTransform.swift */; };
@@ -68,6 +69,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		37362D5B21151684003E5ACA /* TextShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextShape.swift; sourceTree = "<group>"; };
 		3762296D2113A9E60034D0E3 /* DrawsanaUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawsanaUtilities.swift; sourceTree = "<group>"; };
 		376229712113AAD30034D0E3 /* LineShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineShape.swift; sourceTree = "<group>"; };
 		376229732113AAF50034D0E3 /* ShapeTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeTransform.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				376229712113AAD30034D0E3 /* LineShape.swift */,
 				376229792113AB7F0034D0E3 /* PenShape.swift */,
 				376229752113AB6E0034D0E3 /* RectShape.swift */,
+				37362D5B21151684003E5ACA /* TextShape.swift */,
 			);
 			path = Implementations;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				3777F2FF21068A78009A9AC5 /* DrawingTool.swift in Sources */,
 				3777F2FD21068A5C009A9AC5 /* Shape.swift in Sources */,
 				37885E2C210A9C95003A918F /* PenTool_EraserTool.swift in Sources */,
+				37362D5C21151684003E5ACA /* TextShape.swift in Sources */,
 				376229832113AD6E0034D0E3 /* Drawing.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

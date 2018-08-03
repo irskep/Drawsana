@@ -9,76 +9,63 @@
 import CoreGraphics
 import UIKit
 
-public class TextShape: Shape, ShapeSelectable {
-  public var id: String = UUID().uuidString
-  public let type = "Text"
+/*
+ Text tool behavior spec:
 
-  public var boundingRect: CGRect {
-    return textView.frame
-  }
+ # Activate tool without shape, then tap:
 
-  public var transform: ShapeTransform = .identity
-  public var text = ""
-  public var center: CGPoint = .zero
-  public var fontName: String = "Helvetica Neue"
-  public var fontSize: CGFloat = 24
+ Add text under finger, or at point determined by delegate
 
-  var font: UIFont {
-    return UIFont(name: fontName, size: fontSize)!
-  }
+ # Activate tool with shape:
 
-  public lazy var textView: UITextView = makeTextView()
-  private var cachedImage: UIImage?
-  public var image: UIImage? {
-    if let cachedImage = cachedImage { return cachedImage }
-    let size = CGSize(width: textView.bounds.size.width * transform.scale, height: textView.bounds.size.height * transform.scale)
-    let image = DrawsanaUtilities.renderImage(size: size) { _ in
-      self.textView.drawHierarchy(in: CGRect(origin: .zero, size: size), afterScreenUpdates: false)
-    }
-    cachedImage = image
-    return image
-  }
+ Begin editing shape immediately
 
-  public func render(in context: CGContext) {
-    guard let image = self.image else { return }
-    image.draw(at: computeFrame().origin)
-  }
+ # Tap on text
 
-  func computeFrame() -> CGRect {
-    let center = CGPoint(x: self.center.x + transform.translation.x, y: self.center.y + transform.translation.y)
-    let textForMeasuring = text.isEmpty ? "__" : text
-    let textSize = (textForMeasuring as NSString).boundingRect(
-      with: CGSize(width: CGFloat.infinity, height: CGFloat.infinity),
-      options: [.usesLineFragmentOrigin], attributes: [.font: font], context: nil)
-    let scaledTextSize = CGSize(width: textSize.width * transform.scale, height: textSize.height * transform.scale)
-    return CGRect(
-      origin: CGPoint(x: center.x - scaledTextSize.width / 2, y: center.y - scaledTextSize.height / 2),
-      size: scaledTextSize).insetBy(dx: -8, dy: -4) // TODO: allow config
-  }
+ */
 
-  private func makeTextView() -> UITextView {
-    let textView = UITextView()
-    textView.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
-    textView.frame = computeFrame()
-    textView.font = font
-    textView.textContainerInset = .zero
-    textView.isScrollEnabled = false
-    textView.clipsToBounds = true
-    return textView
-  }
+public protocol TextToolDelegate: AnyObject {
+  func textToolPointForNewText(tappedPoint: CGPoint) -> CGPoint
+  func textToolDidTapAway(tappedPoint: CGPoint)
 }
 
 public class TextTool: NSObject, DrawingTool, UITextViewDelegate {
   public let isProgressive = false
   public let name: String = "Text"
+  public weak var delegate: TextToolDelegate?
 
   public var shapeInProgress: TextShape?
 
-  public override init() { super.init() }
+  var originalTransform: ShapeTransform?
+  var startPoint: CGPoint?
+
+  public init(delegate: TextToolDelegate? = nil) {
+    self.delegate = delegate
+    super.init()
+  }
+
+  public func deactivate(context: ToolOperationContext) {
+    context.interactiveView?.resignFirstResponder()
+    context.interactiveView = nil
+  }
 
   public func handleTap(context: ToolOperationContext, point: CGPoint) {
+    if let shapeInProgress = shapeInProgress {
+      if shapeInProgress.hitTest(point: point) {
+        // TODO: forward tap to text view
+      } else {
+        // TODO: save changes
+        self.shapeInProgress = nil
+        context.toolState.selectedShape = nil
+        context.interactiveView?.resignFirstResponder()
+        context.interactiveView = nil
+        delegate?.textToolDidTapAway(tappedPoint: point)
+      }
+      return
+    }
+
     shapeInProgress = TextShape()
-    shapeInProgress!.center = point
+    shapeInProgress!.center = delegate?.textToolPointForNewText(tappedPoint: point) ?? point
     context.interactiveView = shapeInProgress?.textView
     context.toolState.selectedShape = shapeInProgress
     shapeInProgress!.textView.frame = shapeInProgress!.computeFrame()
@@ -87,19 +74,43 @@ public class TextTool: NSObject, DrawingTool, UITextViewDelegate {
   }
 
   public func handleDragStart(context: ToolOperationContext, point: CGPoint) {
-
+    guard let shapeInProgress = shapeInProgress, shapeInProgress.hitTest(point: point) else { return }
+    originalTransform = shapeInProgress.transform
+    startPoint = point
   }
 
   public func handleDragContinue(context: ToolOperationContext, point: CGPoint, velocity: CGPoint) {
-
+    guard
+      let originalTransform = originalTransform,
+      let selectedShape = context.toolState.selectedShape,
+      let startPoint = startPoint else
+    {
+      return
+    }
+    let delta = CGPoint(x: point.x - startPoint.x, y: point.y - startPoint.y)
+    selectedShape.transform = originalTransform.translated(by: delta)
+    context.isPersistentBufferDirty = true
+    shapeInProgress!.textView.frame = shapeInProgress!.computeFrame()
   }
 
   public func handleDragEnd(context: ToolOperationContext, point: CGPoint) {
-
+    guard
+      let originalTransform = originalTransform,
+      let selectedShape = context.toolState.selectedShape,
+      let startPoint = startPoint else
+    {
+      return
+    }
+    let delta = CGPoint(x: point.x - startPoint.x, y: point.y - startPoint.y)
+    selectedShape.transform = originalTransform.translated(by: delta)
+    context.isPersistentBufferDirty = true
+    shapeInProgress!.textView.frame = shapeInProgress!.computeFrame()
   }
 
   public func handleDragCancel(context: ToolOperationContext, point: CGPoint) {
-
+    context.toolState.selectedShape?.transform = originalTransform ?? .identity
+    context.isPersistentBufferDirty = true
+    shapeInProgress!.textView.frame = shapeInProgress!.computeFrame()
   }
 
   public func textViewDidChange(_ textView: UITextView) {

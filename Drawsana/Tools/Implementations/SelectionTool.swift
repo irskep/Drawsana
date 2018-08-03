@@ -8,16 +8,22 @@
 
 import UIKit
 
+public protocol SelectionToolDelegate: AnyObject {
+  func selectionToolDidTapOnAlreadySelectedShape(_ shape: ShapeSelectable)
+}
+
 public class SelectionTool: DrawingTool {
   public let name = "Selection"
   
   public var isProgressive: Bool { return false }
 
+  public weak var delegate: SelectionToolDelegate?
+
   var originalTransform: ShapeTransform?
   var startPoint: CGPoint?
 
-  public init() {
-
+  public init(delegate: SelectionToolDelegate? = nil) {
+    self.delegate = delegate
   }
 
   public func handleTap(context: ToolOperationContext, point: CGPoint) {
@@ -25,7 +31,7 @@ public class SelectionTool: DrawingTool {
     for shape in context.drawing.shapes {
       if shape.hitTest(point: point), let castShape = shape as? ShapeSelectable {
         if castShape === context.toolState.selectedShape {
-          context.shapeForAssociatedTool = castShape
+          delegate?.selectionToolDidTapOnAlreadySelectedShape(castShape)
         } else {
           newSelection = castShape
         }
@@ -36,7 +42,7 @@ public class SelectionTool: DrawingTool {
   }
 
   public func handleDragStart(context: ToolOperationContext, point: CGPoint) {
-    guard let selectedShape = context.toolState.selectedShape else { return }
+    guard let selectedShape = context.toolState.selectedShape, selectedShape.hitTest(point: point) else { return }
     originalTransform = selectedShape.transform
     startPoint = point
   }
