@@ -17,6 +17,7 @@
 		376229812113AD570034D0E3 /* ToolOperationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229802113AD570034D0E3 /* ToolOperationContext.swift */; };
 		376229832113AD6E0034D0E3 /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229822113AD6E0034D0E3 /* Drawing.swift */; };
 		376229872113ADD70034D0E3 /* GlobalToolState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376229862113ADD70034D0E3 /* GlobalToolState.swift */; };
+		3762298B2113D7910034D0E3 /* TextTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3762298A2113D7910034D0E3 /* TextTool.swift */; };
 		3777F2FD21068A5C009A9AC5 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777F2FC21068A5C009A9AC5 /* Shape.swift */; };
 		3777F2FF21068A78009A9AC5 /* DrawingTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3777F2FE21068A78009A9AC5 /* DrawingTool.swift */; };
 		37885E2A210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37885E29210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift */; };
@@ -78,6 +79,7 @@
 		376229822113AD6E0034D0E3 /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
 		376229862113ADD70034D0E3 /* GlobalToolState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalToolState.swift; sourceTree = "<group>"; };
 		376229892113AE0C0034D0E3 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
+		3762298A2113D7910034D0E3 /* TextTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTool.swift; sourceTree = "<group>"; };
 		3777F2FC21068A5C009A9AC5 /* Shape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		3777F2FE21068A78009A9AC5 /* DrawingTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTool.swift; sourceTree = "<group>"; };
 		37885E29210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipseTool_LineTool_RectTool.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				37885E29210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift */,
 				37885E2B210A9C95003A918F /* PenTool_EraserTool.swift */,
 				37885E2D210A9CDA003A918F /* SelectionTool.swift */,
+				3762298A2113D7910034D0E3 /* TextTool.swift */,
 			);
 			path = Implementations;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				3762296E2113A9E60034D0E3 /* DrawsanaUtilities.swift in Sources */,
 				3762297A2113AB7F0034D0E3 /* PenShape.swift in Sources */,
 				376229812113AD570034D0E3 /* ToolOperationContext.swift in Sources */,
+				3762298B2113D7910034D0E3 /* TextTool.swift in Sources */,
 				376229742113AAF50034D0E3 /* ShapeTransform.swift in Sources */,
 				37885E2A210A9C69003A918F /* EllipseTool_LineTool_RectTool.swift in Sources */,
 				376229722113AAD30034D0E3 /* LineShape.swift in Sources */,

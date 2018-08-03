@@ -26,6 +26,15 @@ public class DrawsanaView: UIView {
     }
   }
   public lazy var drawing: Drawing = { return Drawing(size: bounds.size, delegate: self) }()
+  public var interactiveView: UIView? {
+    didSet {
+      guard oldValue !== interactiveView else { return }
+      oldValue?.removeFromSuperview()
+      if let interactiveView = interactiveView {
+        interactiveOverlayContainerView.addSubview(interactiveView)
+      }
+    }
+  }
 
   // MARK: Buffers
 
@@ -64,6 +73,8 @@ public class DrawsanaView: UIView {
 
   public let selectionIndicatorView = UIView()
 
+  public let interactiveOverlayContainerView = UIView()
+
   // MARK: Init
 
   public override init(frame: CGRect) {
@@ -94,6 +105,7 @@ public class DrawsanaView: UIView {
 
     addSubview(drawingContentView)
     addSubview(selectionIndicatorView)
+    addSubview(interactiveOverlayContainerView)
 
     drawingContentView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -101,6 +113,14 @@ public class DrawsanaView: UIView {
       drawingContentView.rightAnchor.constraint(equalTo: rightAnchor),
       drawingContentView.topAnchor.constraint(equalTo: topAnchor),
       drawingContentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+    ])
+
+    interactiveOverlayContainerView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      interactiveOverlayContainerView.leftAnchor.constraint(equalTo: leftAnchor),
+      interactiveOverlayContainerView.rightAnchor.constraint(equalTo: rightAnchor),
+      interactiveOverlayContainerView.topAnchor.constraint(equalTo: topAnchor),
+      interactiveOverlayContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
     ])
 
     selectionIndicatorView.translatesAutoresizingMaskIntoConstraints = true
@@ -118,14 +138,19 @@ public class DrawsanaView: UIView {
   // MARK: API
 
   public func set(tool: DrawingTool, shape: Shape? = nil) {
-//    let context = ToolOperationContext(drawing: drawing, toolState: globalToolState)
-//    self.tool?.deactivate(context: context)
-    self.tool = tool
     DispatchQueue.main.async {
       // TODO: why does this break everything if run in the same run loop? Maybe because autoreleasepool?
-      tool.activate(context: ToolOperationContext(drawing: self.drawing, toolState: self.globalToolState), shape: shape)
+      self.tool?.deactivate(context: self.makeToolOperationContext())
+      self.tool = tool
+      tool.activate(context: self.makeToolOperationContext(), shape: shape)
       self.delegate?.drawsanaView(self, didSwitchTo: tool)
     }
+  }
+
+  // ARMK: Internal helpers
+
+  private func makeToolOperationContext() -> ToolOperationContext {
+    return ToolOperationContext(drawing: self.drawing, toolState: self.globalToolState, interactiveView: interactiveView)
   }
 
   // MARK: Gesture recognizers
@@ -151,7 +176,7 @@ public class DrawsanaView: UIView {
     }
 
     let point = sender.location(in: self)
-    let context = ToolOperationContext(drawing: drawing, toolState: globalToolState)
+    let context = makeToolOperationContext()
     switch sender.state {
     case .began:
       if let persistentBuffer = persistentBuffer, let cgImage = persistentBuffer.cgImage {
@@ -177,17 +202,19 @@ public class DrawsanaView: UIView {
       assert(false, "State not handled")
     }
 
+    interactiveView = context.interactiveView
+
     if context.isPersistentBufferDirty {
       redrawAbsolutelyEverything()
-      applySelectionViewState()
     }
+    // This is cheap to do and annoying to signal, so just do it all the time
+    applySelectionViewState()
   }
 
   @objc private func didTap(sender: UITapGestureRecognizer) {
-    let context = ToolOperationContext(
-      drawing: drawing,
-      toolState: globalToolState)
+    let context = makeToolOperationContext()
     tool?.handleTap(context: context, point: sender.location(in: self))
+    interactiveView = context.interactiveView
     if
       let shape = context.shapeForAssociatedTool,
       let nextTool = delegate?.drawsanaViewAssociatedTool(for: shape)

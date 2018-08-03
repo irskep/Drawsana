@@ -14,8 +14,9 @@ class ViewController: UIViewController {
   let toolButton = UIButton(type: .custom)
 
   let tools: [DrawingTool] = [
-    EllipseTool(),
+    TextTool(),
     SelectionTool(),
+    EllipseTool(),
     PenTool(),
     EraserTool(),
     LineTool(),
