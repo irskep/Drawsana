@@ -18,10 +18,8 @@ public class TextShape: Shape, ShapeSelectable {
     set { textView.frame = newValue }
   }
 
-  // TODO: stop storing position in transform at all, use center instead
   public var transform: ShapeTransform = .identity
   public var text = ""
-  public var center: CGPoint = .zero
   public var fontName: String = "Helvetica Neue"
   public var fontSize: CGFloat = 24
 
@@ -47,7 +45,7 @@ public class TextShape: Shape, ShapeSelectable {
   }
 
   func computeFrame() -> CGRect {
-    let center = CGPoint(x: self.center.x + transform.translation.x, y: self.center.y + transform.translation.y)
+    let center = CGPoint(x: transform.translation.x, y: transform.translation.y)
     let textForMeasuring = text.isEmpty ? "__" : text
     let textSize = (textForMeasuring as NSString).boundingRect(
       with: CGSize(width: CGFloat.infinity, height: CGFloat.infinity),

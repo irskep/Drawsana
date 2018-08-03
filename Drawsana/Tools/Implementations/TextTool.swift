@@ -65,7 +65,7 @@ public class TextTool: NSObject, DrawingTool, UITextViewDelegate {
     }
 
     shapeInProgress = TextShape()
-    shapeInProgress!.center = delegate?.textToolPointForNewText(tappedPoint: point) ?? point
+    shapeInProgress!.transform.translation = delegate?.textToolPointForNewText(tappedPoint: point) ?? point
     context.interactiveView = shapeInProgress?.textView
     context.toolState.selectedShape = shapeInProgress
     shapeInProgress!.textView.frame = shapeInProgress!.computeFrame()
